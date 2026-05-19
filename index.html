@@ -548,7 +548,7 @@ if (EJ_ON) emailjs.init(CFG.emailjs.publicKey);
 // ─── State ───────────────────────────────────────────────────
 let projects  = [];
 let inquiries = [];
-let photoB64  = null;
+
 let isAdmin   = false;
 let otp       = null, otpExp = null, otpTick = null;
 let attempts  = +localStorage.getItem('aipl_att')||0;
@@ -759,23 +759,35 @@ window.switchTab = (btn,id) => {
   btn.classList.add('active'); $id(id).classList.add('active');
 };
 
+// ─── Cloudinary config ────────────────────────────────────────
+const CLOUDINARY_CLOUD = "dfi17qgsu";
+const CLOUDINARY_PRESET = "aipl_uploads";
+let photoFile = null;
+
 // ─── Photo handling ───────────────────────────────────────────
 window.handlePhoto = input => {
   const file=input.files[0]; if(!file) return;
-  const img=new Image(), url=URL.createObjectURL(file);
-  img.onload=()=>{
-    const c=document.createElement('canvas');
-    const r=Math.min(1,1200/img.width);
-    c.width=img.width*r; c.height=img.height*r;
-    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-    photoB64=c.toDataURL('image/jpeg',0.82);
-    const dz=$id('dropzone');
-    let prev=dz.querySelector('img.prev');
-    if(!prev){prev=document.createElement('img');prev.className='prev';prev.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;';dz.appendChild(prev);}
-    prev.src=photoB64; $id('dropLabel').style.display='none';
-    URL.revokeObjectURL(url);
-  };img.src=url;
+  photoFile = file;
+  const url=URL.createObjectURL(file);
+  const dz=$id('dropzone');
+  let prev=dz.querySelector('img.prev');
+  if(!prev){prev=document.createElement('img');prev.className='prev';prev.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;';dz.appendChild(prev);}
+  prev.src=url; $id('dropLabel').style.display='none';
 };
+
+// ─── Upload to Cloudinary ─────────────────────────────────────
+async function uploadToCloudinary(file) {
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CLOUDINARY_PRESET);
+  fd.append('folder', 'aipl_projects');
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+    method: 'POST', body: fd
+  });
+  const data = await res.json();
+  if(!data.secure_url) throw new Error('Cloudinary upload failed');
+  return data.secure_url;
+}
 
 // ─── Add project ──────────────────────────────────────────────
 window.addProject = async () => {
@@ -784,9 +796,17 @@ window.addProject = async () => {
   hideAlert('addErr'); hideAlert('addOk');
   if(!name){showAlert('addErr','Project name is required.');return;}
   if(!cat){showAlert('addErr','Please select a category.');return;}
-  if(!photoB64){showAlert('addErr','Please upload a project photo.');return;}
-  const btn=$id('addBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Saving…';
-  const proj={name,category:cat,client,description:desc,photo:photoB64,date:new Date().toLocaleDateString('en-IN')};
+  if(!photoFile){showAlert('addErr','Please upload a project photo.');return;}
+  const btn=$id('addBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Uploading photo…';
+  let photoUrl = '';
+  try {
+    photoUrl = await uploadToCloudinary(photoFile);
+  } catch(e) {
+    showAlert('addErr','Photo upload failed. Please try again.'); 
+    btn.disabled=false; btn.textContent='Add to Portfolio →'; return;
+  }
+  btn.innerHTML='<span class="spinner"></span>Saving…';
+  const proj={name,category:cat,client,description:desc,photo:photoUrl,date:new Date().toLocaleDateString('en-IN')};
   if(FB_ON&&db){
     try{ const ref=await addDoc(collection(db,'projects'),{...proj,createdAt:serverTimestamp()}); proj.id=ref.id; }
     catch(e){ console.warn("Firestore write failed:",e); }
@@ -795,7 +815,7 @@ window.addProject = async () => {
   try{localStorage.setItem('aipl_proj',JSON.stringify(projects.slice(0,60)));}catch(e){}
   // Reset
   $id('pName').value='';$id('pCat').value='';$id('pClient').value='';$id('pDesc').value='';
-  photoB64=null; $id('dropLabel').style.display='';
+  photoFile=null; $id('dropLabel').style.display='';
   const prev=$id('dropzone').querySelector('img.prev'); if(prev) prev.remove();
   btn.disabled=false; btn.textContent='Add to Portfolio →';
   showAlert('addOk',`✓ "${name}" added successfully!`,'success');
