@@ -168,8 +168,22 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
 .proj-info{flex:1;min-width:0}
 .proj-name{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .proj-meta{font-size:11px;color:var(--gold);margin-top:3px;letter-spacing:.5px}
+
+/* Edit & Delete Buttons */
 .btn-del{background:none;border:1px solid rgba(139,26,26,.4);color:var(--red-light);padding:7px 14px;cursor:pointer;font-size:11px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;transition:all .3s;flex-shrink:0}
 .btn-del:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-edit { background:none; border:1px solid rgba(200,169,110,.4); color:var(--gold); padding:7px 14px; cursor:pointer; font-size:11px; font-family:'Barlow Condensed',sans-serif; letter-spacing:1px; transition:all .3s; flex-shrink:0; margin-right:8px; }
+.btn-edit:hover { background:var(--gold); color:var(--dark); border-color:var(--gold); }
+
+/* Edit Photos UI */
+.ep-thumb-wrap { position:relative; width:80px; height:80px; border-radius:4px; background:var(--dark3); border:1px solid rgba(255,255,255,.1); }
+.ep-thumb-wrap img { width:100%; height:100%; object-fit:cover; border-radius:4px; display:block; }
+.ep-thumb-del { position:absolute; top:-8px; right:-8px; background:var(--red); color:#fff; border:none; border-radius:50%; width:22px; height:22px; font-size:14px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center; z-index:2; }
+/* New Rearrange Arrows */
+.ep-thumb-nav { position:absolute; bottom:0; left:0; right:0; display:flex; justify-content:space-between; background:rgba(0,0,0,0.6); border-bottom-left-radius:4px; border-bottom-right-radius:4px; padding:2px; }
+.ep-thumb-nav button { background:none; border:none; color:var(--white); font-size:12px; cursor:pointer; padding:2px 8px; transition:color 0.2s; }
+.ep-thumb-nav button:hover { color:var(--gold); }
+
 .inq-table{width:100%;border-collapse:collapse;font-size:13px}
 .inq-table th{text-align:left;padding:12px 14px;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:var(--dark);border-bottom:1px solid rgba(200,169,110,.2)}
 .inq-table td{padding:13px 14px;color:var(--gray-light);border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
@@ -324,18 +338,57 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
 <div class="modal-overlay" id="projectModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('projectModal')">×</button>
-    
     <div class="pm-carousel" id="pmCarousel">
       <button class="pm-nav prev" onclick="changePhoto(-1)">&#10094;</button>
       <img class="pm-img" id="pmImg" src="" alt="" />
       <button class="pm-nav next" onclick="changePhoto(1)">&#10095;</button>
     </div>
     <div class="pm-indicator" id="pmIndicator"></div>
-
     <div class="pm-body">
       <div class="pm-cat" id="pmCat"></div>
       <div class="pm-title" id="pmTitle"></div>
       <div class="pm-desc" id="pmDesc"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="editProjModal" style="z-index: 3100;">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('editProjModal')">×</button>
+    <h2>Edit Project</h2>
+    <div class="modal-form">
+      <div class="form-group"><label>Project Name *</label><input type="text" id="epName" /></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="epCat">
+            <option value="">Select…</option>
+            <option>Interior Fitout</option><option>Hardscape</option>
+            <option>Civil Works</option><option>Commercial Flooring</option>
+            <option>Landscape</option><option>Infrastructure</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Client</label><input type="text" id="epClient" /></div>
+      </div>
+      <div class="form-group"><label>Description</label><textarea id="epDesc" rows="3"></textarea></div>
+      
+      <div class="form-group">
+        <label>Arrange Existing Photos (Use arrows to reorder)</label>
+        <div id="epExistingPhotos" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Add Additional Photos</label>
+        <div class="img-dropzone" style="height:120px;" onclick="document.getElementById('epPhotoInput').click()">
+          <div class="img-dropzone-label" id="epDropLabel">
+            <span>Click to select new photos</span>
+          </div>
+          <input type="file" id="epPhotoInput" accept="image/*" multiple style="display:none" onchange="handleEditPhotos(this)" />
+        </div>
+      </div>
+
+      <div class="alert alert-error" id="epErr"></div>
+      <button class="btn-primary" id="epSaveBtn" onclick="saveEditProj()" style="width:100%">Save Changes →</button>
     </div>
   </div>
 </div>
@@ -485,7 +538,7 @@ document.querySelectorAll('.modal-overlay').forEach(el=>{
   el.addEventListener('click',e=>{ if(e.target===el) closeModal(el.id); });
 });
 
-// ─── Auth State & Login ───────────────────────────────────────
+// ─── Auth State & Logout ──────────────────────────────────────
 if (FB_ON && auth) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -494,7 +547,8 @@ if (FB_ON && auth) {
       openAdminPanel();
     } else {
       isAdmin = false;
-      if($id('adminPanel').style.display !== 'none') closeAdmin();
+      $id('adminPanel').style.display = 'none';
+      renderProjects();
     }
   });
 }
@@ -522,8 +576,12 @@ window.doLogin = async () => {
 };
 
 window.closeAdmin = () => {
-  if (FB_ON && auth) signOut(auth);
-  else { $id('adminPanel').style.display='none'; renderProjects(); }
+  if (FB_ON && auth) {
+    signOut(auth); 
+  } else {
+    $id('adminPanel').style.display='none'; 
+    renderProjects(); 
+  }
 };
 
 // ─── Load Data ────────────────────────────────────────────────
@@ -548,7 +606,6 @@ async function loadInquiries(){
   
   renderInquiries();
   
-  // Update Unread Badge
   const unreadCount = inquiries.filter(q => !q.read).length;
   if(unreadCount > 0){ 
     $id('inqBadge').textContent = unreadCount; 
@@ -624,27 +681,25 @@ function updateModalPhoto() {
   }
 }
 
-// ─── Admin Panel UI & Read Toggles ────────────────────────────
+// ─── Admin Panel UI ───────────────────────────────────────────
 function openAdminPanel(){ $id('adminPanel').style.display='block'; loadProjects(); loadInquiries(); }
 
 async function markInquiriesAsRead() {
   let updated = false;
   for (let q of inquiries) {
     if (!q.read && q.id) {
-      q.read = true; // Update local state
+      q.read = true; 
       updated = true;
       if (FB_ON && db) {
-        try {
-          await updateDoc(doc(db, 'inquiries', q.id), { read: true });
-        } catch(e) { console.warn("Failed to update read status:", e); }
+        try { await updateDoc(doc(db, 'inquiries', q.id), { read: true }); } 
+        catch(e) {}
       }
     }
   }
-  
   if (updated) {
     try { localStorage.setItem('aipl_inq', JSON.stringify(inquiries.slice(0,300))); } catch(e){}
     $id('inqBadge').style.display = 'none';
-    renderInquiries(); // Re-render to remove bold styling
+    renderInquiries();
   }
 }
 
@@ -652,8 +707,6 @@ window.switchTab = (btn,id) => {
   document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active'); $id(id).classList.add('active');
-  
-  // Mark inquiries as read in the DB when the tab is opened
   if(id === 'tabInq') { markInquiriesAsRead(); }
 };
 
@@ -662,9 +715,7 @@ window.handlePhotos = input => {
   if(!input.files.length) return;
   photoFiles = Array.from(input.files);
   const dz = $id('dropzone');
-  
   dz.querySelectorAll('.prev').forEach(el => el.remove());
-  
   $id('dropLabel').innerHTML = `<span style="color:var(--gold)">${photoFiles.length} photo(s) selected</span><br><span style="font-size:11px">Click to change selection</span>`;
 };
 
@@ -739,7 +790,10 @@ function renderProjList(){
         <div class="proj-name">${escapeHTML(p.name)}</div>
         <div class="proj-meta">${escapeHTML(p.category)}${p.client?' · '+escapeHTML(p.client):''}</div>
       </div>
-      <button class="btn-del" onclick="deleteProj(${i},'${p.id||''}')">Delete</button>
+      <div>
+        <button class="btn-edit" onclick="openEditProj(${i})">Edit</button>
+        <button class="btn-del" onclick="deleteProj(${i},'${p.id||''}')">Delete</button>
+      </div>
     </div>`
   }).join('');
 }
@@ -749,6 +803,116 @@ window.deleteProj = async (i,fbId) => {
   if(FB_ON&&db&&fbId){ try{await deleteDoc(doc(db,'projects',fbId));}catch(e){} }
   projects.splice(i,1);
   try{localStorage.setItem('aipl_proj',JSON.stringify(projects));}catch(e){}
+  renderProjects(); renderProjList();
+};
+
+// ─── Edit Project Mode (With Rearranging) ─────────────────────
+let editProjIdx = -1;
+let editExistingPhotos = [];
+let editNewFiles = [];
+
+window.openEditProj = (i) => {
+  const p = projects[i];
+  editProjIdx = i;
+  
+  $id('epName').value = p.name || '';
+  $id('epCat').value = p.category || '';
+  $id('epClient').value = p.client || '';
+  $id('epDesc').value = p.description || '';
+  
+  editExistingPhotos = p.photos ? [...p.photos] : (p.photo ? [p.photo] : []);
+  editNewFiles = [];
+  
+  $id('epDropLabel').innerHTML = `<span>Click to select new photos</span>`;
+  hideAlert('epErr');
+  
+  renderEditPhotos();
+  openModal('editProjModal');
+};
+
+function renderEditPhotos() {
+  const c = $id('epExistingPhotos');
+  if(!editExistingPhotos.length) {
+    c.innerHTML = '<span style="font-size:12px;color:var(--gray)">No existing photos.</span>';
+    return;
+  }
+  c.innerHTML = editExistingPhotos.map((url, i) => `
+    <div class="ep-thumb-wrap">
+      <img src="${escapeHTML(url)}" />
+      <button class="ep-thumb-del" onclick="removeEditPhoto(${i})" title="Delete Image">×</button>
+      <div class="ep-thumb-nav">
+        <button onclick="moveEditPhoto(${i}, -1)" ${i===0?'style="visibility:hidden"':''} title="Move Left">◀</button>
+        <button onclick="moveEditPhoto(${i}, 1)" ${i===editExistingPhotos.length-1?'style="visibility:hidden"':''} title="Move Right">▶</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+window.removeEditPhoto = (i) => {
+  editExistingPhotos.splice(i, 1);
+  renderEditPhotos();
+};
+
+// New function to handle shifting photos left or right
+window.moveEditPhoto = (i, dir) => {
+  const target = i + dir;
+  if (target < 0 || target >= editExistingPhotos.length) return;
+  // Swap the array elements
+  [editExistingPhotos[i], editExistingPhotos[target]] = [editExistingPhotos[target], editExistingPhotos[i]];
+  renderEditPhotos();
+};
+
+window.handleEditPhotos = input => {
+  if(!input.files.length) return;
+  editNewFiles = Array.from(input.files);
+  $id('epDropLabel').innerHTML = `<span style="color:var(--gold)">${editNewFiles.length} new photo(s) selected</span>`;
+};
+
+window.saveEditProj = async () => {
+  const name=$id('epName').value.trim(), cat=$id('epCat').value;
+  const client=$id('epClient').value.trim(), desc=$id('epDesc').value.trim();
+  hideAlert('epErr');
+  
+  if(!name){showAlert('epErr','Project name is required.');return;}
+  if(!cat){showAlert('epErr','Please select a category.');return;}
+  if(!editExistingPhotos.length && !editNewFiles.length){
+    showAlert('epErr','Project must have at least one photo.');return;
+  }
+
+  const btn=$id('epSaveBtn'); btn.disabled=true; 
+  
+  let newPhotoUrls = [];
+  if(editNewFiles.length > 0) {
+    btn.innerHTML='<span class="spinner"></span>Uploading New Photos…';
+    try {
+      const uploadPromises = editNewFiles.map(file => uploadToCloudinary(file));
+      newPhotoUrls = await Promise.all(uploadPromises);
+    } catch(e) {
+      showAlert('epErr','Photo upload failed. Please try again.'); 
+      btn.disabled=false; btn.textContent='Save Changes →'; return;
+    }
+  }
+
+  btn.innerHTML='<span class="spinner"></span>Saving Database…';
+  
+  const finalPhotos = [...editExistingPhotos, ...newPhotoUrls];
+  
+  const p = projects[editProjIdx];
+  p.name = name; p.category = cat; p.client = client; 
+  p.description = desc; p.photos = finalPhotos;
+
+  if(FB_ON && db && p.id) {
+    try {
+      await updateDoc(doc(db, 'projects', p.id), {
+        name, category:cat, client, description:desc, photos:finalPhotos
+      });
+    } catch(e) { console.warn('Update failed:', e); }
+  }
+
+  try{localStorage.setItem('aipl_proj',JSON.stringify(projects.slice(0,60)));}catch(e){}
+  
+  btn.disabled=false; btn.textContent='Save Changes →';
+  closeModal('editProjModal');
   renderProjects(); renderProjList();
 };
 
@@ -763,12 +927,11 @@ window.submitInquiry = async e => {
     name:$id('iName').value.trim(), company:$id('iCompany').value.trim(),
     phone:$id('iPhone').value.trim(), email:$id('iEmail').value.trim(),
     type:$id('iType').value, message:$id('iMessage').value.trim(),
-    read: false // Default to unread for the badge system
+    read: false 
   };
   
   let sent=false;
   
-  // RESTORED FORMSPREE
   if(FS_ON){
     try{
       const r=await fetch(`https://formspree.io/f/${CFG.formspree}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(inq)});
@@ -776,7 +939,6 @@ window.submitInquiry = async e => {
     }catch(e){}
   }
   
-  // RESTORED EMAILJS
   if(!sent&&EJ_ON){
     try{
       await emailjs.send(CFG.emailjs.serviceId,CFG.emailjs.inquiryTemplate,{
@@ -787,13 +949,10 @@ window.submitInquiry = async e => {
     }catch(e){}
   }
   
-  // Save directly to Firestore as well
   if(FB_ON&&db){ 
     try{
       await addDoc(collection(db,'inquiries'),{...inq,createdAt:serverTimestamp()});
-    }catch(e){
-      console.error(e);
-    } 
+    }catch(e){} 
   }
   
   inquiries.unshift(inq);
@@ -811,7 +970,6 @@ function renderInquiries(){
   const tbody=$id('inqBody');
   if(!inquiries.length){tbody.innerHTML='<tr><td colspan="7" class="no-data">No inquiries yet.</td></tr>';return;}
   
-  // XSS Escaped table data
   tbody.innerHTML=inquiries.map(q=>`
     <tr class="${!q.read ? 'inq-unread' : ''}">
       <td>${escapeHTML(q.date)}</td>
@@ -830,3 +988,5 @@ fbStatus(FB_ON?'ok':'local');
 </script>
 </body>
 </html>
+
+
