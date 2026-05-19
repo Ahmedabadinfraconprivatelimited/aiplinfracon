@@ -46,7 +46,6 @@ nav.scrolled{background:rgba(13,13,13,.97);border-bottom:1px solid rgba(200,169,
 .hero-ctas{display:flex;gap:20px;align-items:center}
 .btn-primary{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:16px 40px;background:var(--gold);color:var(--dark);border:none;cursor:pointer;text-decoration:none;font-weight:600;transition:all .3s;display:inline-block}
 .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px)}
-.btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
 .btn-outline{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:15px 40px;background:transparent;color:var(--white);border:1px solid rgba(245,243,238,.3);cursor:pointer;text-decoration:none;transition:all .3s;display:inline-block}
 .btn-outline:hover{border-color:var(--gold);color:var(--gold)}
 .hero-clients{position:absolute;right:60px;bottom:80px;z-index:1;text-align:right}
@@ -86,7 +85,6 @@ section{padding:120px 60px}
 .project-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500}
 .project-desc{font-size:13px;color:var(--gray-light);margin-top:8px;line-height:1.6}
 .no-projects{grid-column:1/-1;text-align:center;padding:80px 20px;color:var(--gray);font-size:15px}
-.no-projects .np-icon{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--dark4);margin-bottom:16px;display:block}
 
 /* INQUIRY */
 #inquiry{background:var(--dark2)}
@@ -104,14 +102,12 @@ section{padding:120px 60px}
 .form-group label{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gray)}
 .form-group input,.form-group textarea,.form-group select{background:var(--dark3);border:1px solid rgba(255,255,255,.08);color:var(--white);padding:14px 16px;font-family:'Barlow',sans-serif;font-size:14px;outline:none;transition:border-color .3s;resize:vertical}
 .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold)}
-.form-group select option{background:var(--dark3)}
 
 /* ALERTS */
 .alert{padding:14px 18px;font-size:13px;display:none;margin-top:4px;line-height:1.5}
 .alert.show{display:block}
 .alert-success{background:rgba(200,169,110,.1);border:1px solid var(--gold);color:var(--gold-light)}
 .alert-error{background:rgba(139,26,26,.2);border:1px solid #8b1a1a;color:var(--red-light)}
-.alert-info{background:rgba(30,80,160,.15);border:1px solid #2255bb;color:#88aaff}
 
 /* FOOTER */
 footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding:60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
@@ -122,32 +118,25 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
 .modal-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:var(--dark2);border:1px solid rgba(200,169,110,.2);padding:48px;width:90%;max-width:520px;position:relative;max-height:90vh;overflow-y:auto}
-.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--gray);font-size:24px;cursor:pointer;line-height:1;transition:color .3s}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--gray);font-size:24px;cursor:pointer;line-height:1;transition:color .3s; z-index:50;}
 .modal-close:hover{color:var(--gold)}
 .modal h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;margin-bottom:8px}
 .modal p.modal-sub{font-size:14px;color:var(--gray);margin-bottom:28px}
 .modal-form{display:flex;flex-direction:column;gap:16px}
-.modal-link{text-align:center;font-size:13px;color:var(--gray);margin-top:4px}
-.modal-link a{color:var(--gold);cursor:pointer}
-
-/* Lock badge */
-.lock-banner{display:none;align-items:center;gap:10px;padding:10px 14px;background:rgba(139,26,26,.2);border:1px solid rgba(200,80,80,.3);color:#ff9999;font-size:12px;letter-spacing:1px;font-family:'Barlow Condensed',sans-serif;margin-bottom:12px}
-.lock-banner.show{display:flex}
-
-/* Password strength */
-.pw-strength{height:3px;margin-top:4px;background:var(--dark4);border-radius:2px;overflow:hidden}
-.pw-strength-bar{height:100%;width:0;transition:width .3s,background .3s;border-radius:2px}
-
-/* OTP */
-.otp-timer{font-size:12px;color:var(--gray);text-align:center}
 
 /* Spinner */
 .spinner{width:16px;height:16px;border:2px solid rgba(200,169,110,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* Project detail */
+/* Project detail (Multi-Image Gallery) */
 #projectModal .modal{max-width:800px;padding:0;overflow:hidden}
-.pm-img{width:100%;height:300px;object-fit:cover;display:block}
+.pm-carousel { position: relative; width: 100%; height: 400px; background: var(--dark3); display: flex; align-items: center; justify-content: center; }
+.pm-img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+.pm-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: var(--white); border: none; padding: 16px 12px; cursor: pointer; z-index: 10; font-size: 20px; transition: background 0.3s; }
+.pm-nav:hover { background: var(--gold); color: var(--dark); }
+.pm-nav.prev { left: 0; }
+.pm-nav.next { right: 0; }
+.pm-indicator { text-align: center; padding: 10px 0; font-size: 12px; font-family:'Barlow Condensed', sans-serif; letter-spacing:2px; color: var(--gray); background: var(--dark); border-bottom: 1px solid rgba(200,169,110,.15); }
 .pm-body{padding:40px}
 .pm-cat{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
 .pm-title{font-family:'Cormorant Garamond',serif;font-size:36px;margin-bottom:16px}
@@ -171,8 +160,7 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
 .add-form{display:flex;flex-direction:column;gap:16px}
 .img-dropzone{width:100%;height:200px;background:var(--dark3);border:2px dashed rgba(200,169,110,.3);display:flex;align-items:center;justify-content:center;color:var(--gray);font-size:14px;cursor:pointer;overflow:hidden;position:relative;transition:border-color .3s}
 .img-dropzone:hover{border-color:var(--gold)}
-.img-dropzone img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.img-dropzone-label{display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+.img-dropzone-label{display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none; text-align:center;}
 .proj-list{display:flex;flex-direction:column;gap:10px}
 .proj-item{display:flex;align-items:center;gap:16px;background:var(--dark3);padding:14px;border:1px solid rgba(255,255,255,.04);transition:border-color .3s}
 .proj-item:hover{border-color:rgba(200,169,110,.2)}
@@ -186,30 +174,14 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
 .inq-table th{text-align:left;padding:12px 14px;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:var(--dark);border-bottom:1px solid rgba(200,169,110,.2)}
 .inq-table td{padding:13px 14px;color:var(--gray-light);border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
 .inq-table tr:hover td{background:rgba(255,255,255,.02)}
-.badge{background:rgba(200,169,110,.15);color:var(--gold);font-size:10px;padding:2px 7px;font-family:'Barlow Condensed',sans-serif;border:1px solid rgba(200,169,110,.3);letter-spacing:.5px}
+/* Unread Inquiry Row Style */
+.inq-unread td { color: var(--white); font-weight: 500; background: rgba(255,255,255,0.03); }
+.badge{background:rgba(200,169,110,.15);color:var(--gold);font-size:10px;padding:2px 7px;font-family:'Barlow Condensed',sans-serif;border:1px solid rgba(200,169,110,.3);letter-spacing:.5px; margin-left:6px; border-radius:10px;}
 .no-data{color:var(--gray);text-align:center;padding:40px;font-size:14px}
-
-/* Animations */
-@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-.f1{animation:fadeUp .8s ease both}
-.f2{animation:fadeUp .8s .18s ease both}
-.f3{animation:fadeUp .8s .36s ease both}
-
-/* Responsive */
-@media(max-width:900px){
-  nav{padding:16px 24px}.nav-links{display:none}
-  section{padding:80px 24px}#hero{padding:0 24px 60px}
-  .hero-clients{display:none}.hero-line{left:23px}
-  .about-grid,.inquiry-grid{grid-template-columns:1fr;gap:40px}
-  .form-row{grid-template-columns:1fr}
-  footer{padding:40px 24px;flex-direction:column;text-align:center}
-  .admin-body{padding:20px}.admin-header{padding:14px 20px}
-}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav id="mainNav">
   <a class="nav-logo" href="#hero">AIPL<span> | Ahmedabad Infracon</span></a>
   <ul class="nav-links">
@@ -220,7 +192,6 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
   <button class="nav-admin-btn" onclick="openAdminLogin()">Admin</button>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div><div class="hero-grid"></div>
   <div class="hero-circle"></div><div class="hero-line"></div>
@@ -239,7 +210,6 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="about-grid">
     <div>
@@ -267,7 +237,6 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects">
   <div class="projects-header">
     <div>
@@ -278,7 +247,6 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
   <div class="projects-grid" id="projectsGrid"></div>
 </section>
 
-<!-- INQUIRY -->
 <section id="inquiry">
   <div class="inquiry-grid">
     <div class="inquiry-info">
@@ -332,75 +300,38 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">AHMEDABAD INFRACON PVT LTD</div>
   <div class="footer-copy">© 2025 Ahmedabad Infracon Pvt Ltd. All rights reserved.</div>
 </footer>
 
-<!-- ═══════════ MODALS ═══════════ -->
-
-<!-- Login Modal -->
 <div class="modal-overlay" id="loginModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('loginModal')">×</button>
     <h2>Admin Access</h2>
-    <p class="modal-sub">Enter your admin password to manage the portfolio.</p>
-    <div class="lock-banner" id="lockBanner">🔒 Locked — try again in <span id="lockSec">60</span>s</div>
+    <p class="modal-sub">Log in with your Firebase Auth credentials.</p>
     <div class="modal-form">
       <div class="alert alert-error" id="loginErr"></div>
       <div class="form-group">
         <label>Password</label>
-        <input type="password" id="adminPw" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()" />
+        <input type="password" id="adminPw" placeholder="Enter secure password" onkeydown="if(event.key==='Enter')doLogin()" />
       </div>
       <button class="btn-primary" id="loginBtn" onclick="doLogin()" style="width:100%">Login →</button>
-      <div class="modal-link"><a onclick="openForgot()">Forgot password? Send OTP</a></div>
     </div>
   </div>
 </div>
 
-<!-- Forgot / OTP Modal -->
-<div class="modal-overlay" id="forgotModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('forgotModal')">×</button>
-    <h2 id="fTitle">Reset Password</h2>
-    <p class="modal-sub" id="fSub">An OTP will be sent to info@aiplinfracon.com</p>
-    <!-- Step 1: Send OTP -->
-    <div id="fStep1" class="modal-form">
-      <div class="alert alert-error" id="fSendErr"></div>
-      <div class="alert alert-info" id="fSendInfo"></div>
-      <button class="btn-primary" id="sendOtpBtn" onclick="sendOTP()" style="width:100%">Send OTP to Email →</button>
-      <div class="modal-link"><a onclick="switchToLogin()">← Back to login</a></div>
-    </div>
-    <!-- Step 2: Verify + New Password -->
-    <div id="fStep2" class="modal-form" style="display:none">
-      <div class="alert alert-error" id="fVerErr"></div>
-      <div class="alert alert-success" id="fVerOk"></div>
-      <div class="form-group">
-        <label>6-Digit OTP</label>
-        <input type="text" id="otpInput" maxlength="6" placeholder="Enter OTP" style="letter-spacing:8px;font-size:20px;text-align:center;font-family:'Barlow Condensed',sans-serif" />
-        <div class="otp-timer" id="otpTimer"></div>
-      </div>
-      <div class="form-group">
-        <label>New Password *</label>
-        <input type="password" id="newPw" placeholder="Min 8 characters" oninput="pwStrength(this.value)" />
-        <div class="pw-strength"><div class="pw-strength-bar" id="pwBar"></div></div>
-      </div>
-      <div class="form-group">
-        <label>Confirm Password *</label>
-        <input type="password" id="confPw" placeholder="Repeat password" />
-      </div>
-      <button class="btn-primary" onclick="verifyAndReset()" style="width:100%">Verify &amp; Set Password →</button>
-      <div class="modal-link"><a onclick="resendOTP()">Resend OTP</a></div>
-    </div>
-  </div>
-</div>
-
-<!-- Project Detail Modal -->
 <div class="modal-overlay" id="projectModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('projectModal')">×</button>
-    <img class="pm-img" id="pmImg" src="" alt="" />
+    
+    <div class="pm-carousel" id="pmCarousel">
+      <button class="pm-nav prev" onclick="changePhoto(-1)">&#10094;</button>
+      <img class="pm-img" id="pmImg" src="" alt="" />
+      <button class="pm-nav next" onclick="changePhoto(1)">&#10095;</button>
+    </div>
+    <div class="pm-indicator" id="pmIndicator"></div>
+
     <div class="pm-body">
       <div class="pm-cat" id="pmCat"></div>
       <div class="pm-title" id="pmTitle"></div>
@@ -409,14 +340,12 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
   </div>
 </div>
 
-<!-- ═══════════ ADMIN PANEL ═══════════ -->
 <div id="adminPanel">
   <div class="admin-header">
     <div class="admin-title">Portfolio Manager — AIPL</div>
     <div class="admin-actions">
       <span><span class="fb-dot" id="fbDot"></span><span class="fb-label" id="fbLabel">Connecting…</span></span>
-      <button class="btn-outline" style="font-size:11px;padding:7px 14px;letter-spacing:1px" onclick="openForgot()">Change Password</button>
-      <button class="btn-outline" style="font-size:11px;padding:7px 14px" onclick="closeAdmin()">← Exit</button>
+      <button class="btn-outline" style="font-size:11px;padding:7px 14px" onclick="closeAdmin()">← Logout & Exit</button>
     </div>
   </div>
   <div class="admin-body">
@@ -426,7 +355,6 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
       <button class="admin-tab" data-tab="tabInq" onclick="switchTab(this,'tabInq')">Inquiries <span class="badge" id="inqBadge" style="display:none"></span></button>
     </div>
 
-    <!-- Tab: Add -->
     <div class="tab-pane active" id="tabAdd">
       <p class="section-title">Add New Project</p>
       <div class="add-form">
@@ -445,13 +373,13 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
         </div>
         <div class="form-group"><label>Description</label><textarea id="pDesc" rows="3" placeholder="Brief project description…"></textarea></div>
         <div class="form-group">
-          <label>Project Photo *</label>
+          <label>Project Photos * (You can select multiple)</label>
           <div class="img-dropzone" id="dropzone" onclick="document.getElementById('photoInput').click()">
             <div class="img-dropzone-label" id="dropLabel">
               <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
-              <span>Click to upload photo</span>
+              <span>Click to select photos</span>
             </div>
-            <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)" />
+            <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotos(this)" />
           </div>
         </div>
         <div class="alert alert-error" id="addErr"></div>
@@ -460,13 +388,11 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
       </div>
     </div>
 
-    <!-- Tab: Manage -->
     <div class="tab-pane" id="tabManage">
       <p class="section-title">All Projects</p>
       <div class="proj-list" id="projList"></div>
     </div>
 
-    <!-- Tab: Inquiries -->
     <div class="tab-pane" id="tabInq">
       <p class="section-title">Received Inquiries</p>
       <div style="overflow-x:auto">
@@ -479,33 +405,8 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════
-  SETUP GUIDE (shown in console)
-  ═══════════════════════════════════════ -->
-
 <script type="module">
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  CONFIGURATION — paste your keys here after setup           ║
-// ╠══════════════════════════════════════════════════════════════╣
-// ║  FIREBASE  →  console.firebase.google.com                   ║
-// ║    New project → Web app → copy config below                ║
-// ╠══════════════════════════════════════════════════════════════╣
-// ║  EMAILJS   →  emailjs.com (free)                            ║
-// ║    1. Add Service: Outlook / Microsoft 365                   ║
-// ║       Connect with info@aiplinfracon.com                    ║
-// ║    2. Create Template "OTP":                                 ║
-// ║       Subject: Your AIPL Admin OTP                          ║
-// ║       Body: Your OTP is {{otp_code}}. Expires in 10 mins.  ║
-// ║    3. Create Template "Inquiry":                             ║
-// ║       Subject: New Inquiry from {{from_name}}               ║
-// ║       Body: Name: {{from_name}}\nPhone: {{phone}}\n...      ║
-// ║    4. Copy Public Key from Account → General                 ║
-// ╠══════════════════════════════════════════════════════════════╣
-// ║  FORMSPREE  →  formspree.io (free)                          ║
-// ║    New Form → set email to info@aiplinfracon.com            ║
-// ║    Copy the ID from the endpoint URL                         ║
-// ╚══════════════════════════════════════════════════════════════╝
-
+// ADD YOUR KEYS BACK HERE!
 const CFG = {
   firebase: {
     apiKey:            "AIzaSyA0dhdMxI777SFbofvC0bcuHF38w0pxRKs",
@@ -518,47 +419,51 @@ const CFG = {
   emailjs: {
     publicKey:       "H8CLXzV3j4U8Ww2Vs",
     serviceId:       "service_56wxbje",
-    otpTemplate:     "template_arrgnqe",
     inquiryTemplate: "template_5lmw7rh"
   },
-  formspree: "xaqkqqve",   // e.g. xabcdefg
-  adminEmail: "info@aiplinfracon.com",
-  backupPassword: "AIPL@Backup#2024",      // hardcoded fallback — always works
-  sessionHours: 2,
-  maxAttempts: 3,
-  lockoutSecs: 60
+  formspree: "xaqkqqve", 
+  adminEmail: "info@aiplinfracon.com"
 };
 
-// ─── Firebase ────────────────────────────────────────────────
+const CLOUDINARY_CLOUD = "dfi17qgsu";
+const CLOUDINARY_PRESET = "aipl_uploads";
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query, serverTimestamp }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const FB_ON = !CFG.firebase.apiKey.includes("PASTE");
 const EJ_ON = !CFG.emailjs.publicKey.includes("PASTE");
 const FS_ON = !CFG.formspree.includes("PASTE");
 
-let db;
+let app, db, auth;
 if (FB_ON) {
-  try { db = getFirestore(initializeApp(CFG.firebase)); }
-  catch(e){ console.warn("Firebase init error:", e); }
+  try { 
+    app = initializeApp(CFG.firebase); 
+    db = getFirestore(app); 
+    auth = getAuth(app);
+  } catch(e) { console.warn("Firebase init error:", e); }
 }
 if (EJ_ON) emailjs.init(CFG.emailjs.publicKey);
 
 // ─── State ───────────────────────────────────────────────────
 let projects  = [];
 let inquiries = [];
-
 let isAdmin   = false;
-let otp       = null, otpExp = null, otpTick = null;
-let attempts  = +localStorage.getItem('aipl_att')||0;
-let lockUntil = +localStorage.getItem('aipl_lock')||0;
+let photoFiles = []; 
 
-// ─── Helpers ─────────────────────────────────────────────────
-async function sha256(s){
-  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
-  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+// Modal Gallery State
+let currentProjectPhotos = [];
+let currentPhotoIdx = 0;
+
+// XSS Mitigation Helper
+function escapeHTML(str) {
+  if (typeof str !== 'string') return str;
+  return str.replace(/[&<>'"]/g, tag => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    }[tag]));
 }
+
 function $id(id){return document.getElementById(id)}
 function showAlert(id,msg,type='error'){
   const el=$id(id); el.textContent=msg; el.className=`alert alert-${type} show`;
@@ -574,14 +479,54 @@ function fbStatus(state){
 // ─── Nav scroll ───────────────────────────────────────────────
 window.addEventListener('scroll',()=>$id('mainNav').classList.toggle('scrolled',scrollY>60));
 
-// ─── Modals ───────────────────────────────────────────────────
 window.openModal = id => { $id(id).classList.add('open'); document.body.style.overflow='hidden'; };
 window.closeModal = id => { $id(id).classList.remove('open'); document.body.style.overflow=''; };
 document.querySelectorAll('.modal-overlay').forEach(el=>{
   el.addEventListener('click',e=>{ if(e.target===el) closeModal(el.id); });
 });
 
-// ─── Load data ────────────────────────────────────────────────
+// ─── Auth State & Login ───────────────────────────────────────
+if (FB_ON && auth) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      isAdmin = true;
+      closeModal('loginModal');
+      openAdminPanel();
+    } else {
+      isAdmin = false;
+      if($id('adminPanel').style.display !== 'none') closeAdmin();
+    }
+  });
+}
+
+window.openAdminLogin = () => {
+  if(isAdmin){openAdminPanel();return;}
+  $id('adminPw').value=''; hideAlert('loginErr');
+  openModal('loginModal'); setTimeout(()=>$id('adminPw').focus(),200);
+};
+
+window.doLogin = async () => {
+  if (!FB_ON || !auth) { showAlert('loginErr', 'Firebase is not configured.'); return; }
+  const pw = $id('adminPw').value;
+  if (!pw) return;
+  const btn = $id('loginBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Verifying...';
+  hideAlert('loginErr');
+  try {
+    await signInWithEmailAndPassword(auth, CFG.adminEmail, pw);
+    btn.disabled = false; btn.textContent = 'Login →';
+  } catch (error) {
+    btn.disabled = false; btn.textContent = 'Login →';
+    showAlert('loginErr', 'Invalid password or account blocked.');
+  }
+};
+
+window.closeAdmin = () => {
+  if (FB_ON && auth) signOut(auth);
+  else { $id('adminPanel').style.display='none'; renderProjects(); }
+};
+
+// ─── Load Data ────────────────────────────────────────────────
 async function loadProjects(){
   if(FB_ON && db){
     try{
@@ -592,6 +537,7 @@ async function loadProjects(){
   } else { projects=JSON.parse(localStorage.getItem('aipl_proj')||'[]'); fbStatus('local'); }
   renderProjects(); renderProjList();
 }
+
 async function loadInquiries(){
   if(FB_ON && db){
     try{
@@ -599,183 +545,129 @@ async function loadInquiries(){
       inquiries=(await getDocs(q)).docs.map(d=>({id:d.id,...d.data()}));
     }catch(e){ inquiries=JSON.parse(localStorage.getItem('aipl_inq')||'[]'); }
   } else { inquiries=JSON.parse(localStorage.getItem('aipl_inq')||'[]'); }
+  
   renderInquiries();
-  if(inquiries.length){ $id('inqBadge').textContent=inquiries.length; $id('inqBadge').style.display=''; }
+  
+  // Update Unread Badge
+  const unreadCount = inquiries.filter(q => !q.read).length;
+  if(unreadCount > 0){ 
+    $id('inqBadge').textContent = unreadCount; 
+    $id('inqBadge').style.display=''; 
+  } else {
+    $id('inqBadge').style.display='none';
+  }
 }
 
-// ─── Render public projects ───────────────────────────────────
+// ─── Frontend Projects & Gallery ──────────────────────────────
 function renderProjects(){
   const g=$id('projectsGrid');
   if(!projects.length){
     g.innerHTML='<div class="no-projects"><span class="np-icon">—</span>No projects yet. Login as admin to add your portfolio.</div>';
     return;
   }
-  g.innerHTML=projects.map((p,i)=>`
+  g.innerHTML=projects.map((p,i)=>{
+    const cover = (p.photos && p.photos.length > 0) ? p.photos[0] : p.photo;
+    return `
     <div class="project-card" onclick="openProject(${i})">
-      ${p.photo?`<img src="${p.photo}" alt="${p.name}" loading="lazy" />`
+      ${cover ? `<img src="${escapeHTML(cover)}" alt="${escapeHTML(p.name)}" loading="lazy" />`
         :`<div style="height:100%;display:flex;align-items:center;justify-content:center;color:var(--gray)">No image</div>`}
       <div class="project-overlay">
-        <div class="project-cat">${p.category||'Project'}</div>
-        <div class="project-name">${p.name}</div>
-        ${p.description?`<div class="project-desc">${p.description.slice(0,100)}${p.description.length>100?'…':''}</div>`:''}
+        <div class="project-cat">${escapeHTML(p.category)||'Project'}</div>
+        <div class="project-name">${escapeHTML(p.name)}</div>
+        ${p.description?`<div class="project-desc">${escapeHTML(p.description.slice(0,100))}${p.description.length>100?'…':''}</div>`:''}
       </div>
-    </div>`).join('');
+    </div>`
+  }).join('');
 }
+
 window.openProject = i => {
-  const p=projects[i];
-  $id('pmImg').src=p.photo||''; $id('pmImg').style.display=p.photo?'block':'none';
+  const p = projects[i];
+  currentProjectPhotos = p.photos ? p.photos : (p.photo ? [p.photo] : []);
+  currentPhotoIdx = 0;
+  
+  updateModalPhoto();
+  
   $id('pmCat').textContent=(p.category||'')+(p.client?' · '+p.client:'');
   $id('pmTitle').textContent=p.name;
   $id('pmDesc').textContent=p.description||'';
   openModal('projectModal');
 };
 
-// ─── Admin login ──────────────────────────────────────────────
-window.openAdminLogin = () => {
-  if(isAdmin){openAdminPanel();return;}
-  $id('adminPw').value=''; hideAlert('loginErr'); checkLock();
-  openModal('loginModal'); setTimeout(()=>$id('adminPw').focus(),200);
+window.changePhoto = dir => {
+  if(!currentProjectPhotos.length) return;
+  currentPhotoIdx += dir;
+  if(currentPhotoIdx < 0) currentPhotoIdx = currentProjectPhotos.length - 1;
+  if(currentPhotoIdx >= currentProjectPhotos.length) currentPhotoIdx = 0;
+  updateModalPhoto();
 };
-function checkLock(){
-  const now=Date.now(), banner=$id('lockBanner'), btn=$id('loginBtn'), pw=$id('adminPw');
-  if(lockUntil>now){
-    banner.classList.add('show'); btn.disabled=true; pw.disabled=true;
-    const tick=()=>{
-      const rem=Math.ceil((lockUntil-Date.now())/1000);
-      if(rem<=0){banner.classList.remove('show');btn.disabled=false;pw.disabled=false;attempts=0;localStorage.setItem('aipl_att','0');}
-      else{$id('lockSec').textContent=rem;setTimeout(tick,1000);}
-    };tick();
-  } else {banner.classList.remove('show');btn.disabled=false;pw.disabled=false;}
-}
-window.doLogin = async () => {
-  if(lockUntil>Date.now()) return;
-  const pw=$id('adminPw').value;
-  const hash=await sha256(pw);
-  const backup=await sha256(CFG.backupPassword);
-  const stored=localStorage.getItem('aipl_phash');
-  if(hash===backup||(stored&&hash===stored)){
-    attempts=0;localStorage.setItem('aipl_att','0');
-    localStorage.setItem('aipl_sess',Date.now()+'');
-    isAdmin=true; closeModal('loginModal'); openAdminPanel();
+
+function updateModalPhoto() {
+  const img = $id('pmImg');
+  const ind = $id('pmIndicator');
+  const navs = document.querySelectorAll('.pm-nav');
+  
+  if(!currentProjectPhotos.length) {
+    img.style.display = 'none';
+    ind.textContent = 'No images available';
+    navs.forEach(n => n.style.display = 'none');
+    return;
+  }
+  
+  img.style.display = 'block';
+  img.src = currentProjectPhotos[currentPhotoIdx];
+  ind.textContent = `IMAGE ${currentPhotoIdx + 1} OF ${currentProjectPhotos.length}`;
+  
+  if(currentProjectPhotos.length > 1) {
+    navs.forEach(n => n.style.display = 'block');
   } else {
-    attempts++;localStorage.setItem('aipl_att',attempts+'');
-    if(attempts>=CFG.maxAttempts){
-      lockUntil=Date.now()+CFG.lockoutSecs*1000;
-      localStorage.setItem('aipl_lock',lockUntil+'');
-      checkLock(); showAlert('loginErr',`Too many attempts. Locked for ${CFG.lockoutSecs}s.`);
-    } else {
-      showAlert('loginErr',`Wrong password. ${CFG.maxAttempts-attempts} attempt(s) left.`);
+    navs.forEach(n => n.style.display = 'none'); 
+  }
+}
+
+// ─── Admin Panel UI & Read Toggles ────────────────────────────
+function openAdminPanel(){ $id('adminPanel').style.display='block'; loadProjects(); loadInquiries(); }
+
+async function markInquiriesAsRead() {
+  let updated = false;
+  for (let q of inquiries) {
+    if (!q.read && q.id) {
+      q.read = true; // Update local state
+      updated = true;
+      if (FB_ON && db) {
+        try {
+          await updateDoc(doc(db, 'inquiries', q.id), { read: true });
+        } catch(e) { console.warn("Failed to update read status:", e); }
+      }
     }
   }
-};
-// Session auto-expire
-setInterval(()=>{
-  const s=+localStorage.getItem('aipl_sess')||0;
-  if(isAdmin&&Date.now()-s>CFG.sessionHours*3600000){
-    isAdmin=false;localStorage.removeItem('aipl_sess');
-    if($id('adminPanel').style.display!=='none') closeAdmin();
+  
+  if (updated) {
+    try { localStorage.setItem('aipl_inq', JSON.stringify(inquiries.slice(0,300))); } catch(e){}
+    $id('inqBadge').style.display = 'none';
+    renderInquiries(); // Re-render to remove bold styling
   }
-},60000);
-
-// ─── Forgot / OTP ─────────────────────────────────────────────
-window.openForgot = () => {
-  closeModal('loginModal');
-  $id('fStep1').style.display=''; $id('fStep2').style.display='none';
-  $id('fTitle').textContent='Reset Password';
-  $id('fSub').textContent=`OTP will be sent to ${CFG.adminEmail}`;
-  hideAlert('fSendErr'); hideAlert('fSendInfo');
-  openModal('forgotModal');
-};
-window.switchToLogin = () => { closeModal('forgotModal'); openModal('loginModal'); };
-
-window.sendOTP = async () => {
-  const btn=$id('sendOtpBtn'); btn.disabled=true;
-  btn.innerHTML='<span class="spinner"></span>Sending…';
-  hideAlert('fSendErr'); hideAlert('fSendInfo');
-  otp=Math.floor(100000+Math.random()*900000)+'';
-  otpExp=Date.now()+10*60*1000;
-  if(!EJ_ON){
-    btn.disabled=false; btn.textContent='Send OTP to Email →';
-    showAlert('fSendInfo',`⚠ EmailJS not configured. Test OTP: ${otp}`,'info');
-    showStep2(); return;
-  }
-  try {
-    await emailjs.send(CFG.emailjs.serviceId, CFG.emailjs.otpTemplate, {
-      to_email:CFG.adminEmail, otp_code:otp, expiry_mins:10
-    });
-    btn.disabled=false; btn.textContent='Send OTP to Email →';
-    showStep2();
-  } catch(e){
-    btn.disabled=false; btn.textContent='Send OTP to Email →';
-    showAlert('fSendErr','Failed to send OTP. Check EmailJS config.');
-  }
-};
-function showStep2(){
-  $id('fStep1').style.display='none'; $id('fStep2').style.display='';
-  $id('fTitle').textContent='Enter OTP'; $id('fSub').textContent=`OTP sent to ${CFG.adminEmail}`;
-  $id('otpInput').value=''; $id('newPw').value=''; $id('confPw').value='';
-  startOtpTimer();
 }
-function startOtpTimer(){
-  clearInterval(otpTick);
-  const el=$id('otpTimer');
-  otpTick=setInterval(()=>{
-    const rem=Math.ceil((otpExp-Date.now())/1000);
-    if(rem<=0){clearInterval(otpTick);el.textContent='OTP expired.';el.style.color='var(--red-light)';}
-    else{el.textContent=`Expires in ${Math.floor(rem/60)}:${(rem%60)+''.padStart(2,'0')}`;el.style.color='var(--gray)';}
-  },1000);
-}
-window.resendOTP = () => { $id('fStep1').style.display=''; $id('fStep2').style.display='none'; $id('fTitle').textContent='Reset Password'; };
-window.verifyAndReset = async () => {
-  const entered=$id('otpInput').value.trim();
-  const np=$id('newPw').value, cp=$id('confPw').value;
-  hideAlert('fVerErr'); hideAlert('fVerOk');
-  if(!otp||Date.now()>otpExp){showAlert('fVerErr','OTP expired. Request a new one.');return;}
-  if(entered!==otp){showAlert('fVerErr','Incorrect OTP.');return;}
-  if(np.length<8){showAlert('fVerErr','Password must be at least 8 characters.');return;}
-  if(np!==cp){showAlert('fVerErr','Passwords do not match.');return;}
-  localStorage.setItem('aipl_phash',await sha256(np));
-  otp=null; clearInterval(otpTick);
-  showAlert('fVerOk','✓ Password changed! Logging you in…','success');
-  setTimeout(()=>{
-    closeModal('forgotModal');
-    localStorage.setItem('aipl_sess',Date.now()+'');
-    isAdmin=true; openAdminPanel();
-  },1800);
-};
-window.pwStrength = pw => {
-  const bar=$id('pwBar'); let s=0;
-  if(pw.length>=8)s++;if(/[A-Z]/.test(pw))s++;if(/\d/.test(pw))s++;if(/[^A-Za-z0-9]/.test(pw))s++;
-  bar.style.width=(s*25)+'%';
-  bar.style.background=['','#f44336','#ff9800','#ffeb3b','#4caf50'][s]||'#4caf50';
-};
 
-// ─── Admin panel ──────────────────────────────────────────────
-function openAdminPanel(){ $id('adminPanel').style.display='block'; loadProjects(); loadInquiries(); }
-window.closeAdmin = () => { $id('adminPanel').style.display='none'; renderProjects(); };
 window.switchTab = (btn,id) => {
   document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active'); $id(id).classList.add('active');
+  
+  // Mark inquiries as read in the DB when the tab is opened
+  if(id === 'tabInq') { markInquiriesAsRead(); }
 };
 
-// ─── Cloudinary config ────────────────────────────────────────
-const CLOUDINARY_CLOUD = "dfi17qgsu";
-const CLOUDINARY_PRESET = "aipl_uploads";
-let photoFile = null;
-
-// ─── Photo handling ───────────────────────────────────────────
-window.handlePhoto = input => {
-  const file=input.files[0]; if(!file) return;
-  photoFile = file;
-  const url=URL.createObjectURL(file);
-  const dz=$id('dropzone');
-  let prev=dz.querySelector('img.prev');
-  if(!prev){prev=document.createElement('img');prev.className='prev';prev.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;';dz.appendChild(prev);}
-  prev.src=url; $id('dropLabel').style.display='none';
+// ─── Multiple Photo Handling ──────────────────────────────────
+window.handlePhotos = input => {
+  if(!input.files.length) return;
+  photoFiles = Array.from(input.files);
+  const dz = $id('dropzone');
+  
+  dz.querySelectorAll('.prev').forEach(el => el.remove());
+  
+  $id('dropLabel').innerHTML = `<span style="color:var(--gold)">${photoFiles.length} photo(s) selected</span><br><span style="font-size:11px">Click to change selection</span>`;
 };
 
-// ─── Upload to Cloudinary ─────────────────────────────────────
 async function uploadToCloudinary(file) {
   const fd = new FormData();
   fd.append('file', file);
@@ -789,34 +681,45 @@ async function uploadToCloudinary(file) {
   return data.secure_url;
 }
 
-// ─── Add project ──────────────────────────────────────────────
 window.addProject = async () => {
   const name=$id('pName').value.trim(), cat=$id('pCat').value;
   const client=$id('pClient').value.trim(), desc=$id('pDesc').value.trim();
   hideAlert('addErr'); hideAlert('addOk');
+  
   if(!name){showAlert('addErr','Project name is required.');return;}
   if(!cat){showAlert('addErr','Please select a category.');return;}
-  if(!photoFile){showAlert('addErr','Please upload a project photo.');return;}
-  const btn=$id('addBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Uploading photo…';
-  let photoUrl = '';
+  if(!photoFiles.length){showAlert('addErr','Please upload at least one project photo.');return;}
+  
+  const btn=$id('addBtn'); btn.disabled=true; 
+  btn.innerHTML='<span class="spinner"></span>Uploading Photos…';
+  
+  let photoUrls = [];
   try {
-    photoUrl = await uploadToCloudinary(photoFile);
+    const uploadPromises = photoFiles.map(file => uploadToCloudinary(file));
+    photoUrls = await Promise.all(uploadPromises);
   } catch(e) {
     showAlert('addErr','Photo upload failed. Please try again.'); 
     btn.disabled=false; btn.textContent='Add to Portfolio →'; return;
   }
-  btn.innerHTML='<span class="spinner"></span>Saving…';
-  const proj={name,category:cat,client,description:desc,photo:photoUrl,date:new Date().toLocaleDateString('en-IN')};
+  
+  btn.innerHTML='<span class="spinner"></span>Saving to Database…';
+  
+  const proj={name,category:cat,client,description:desc,photos:photoUrls,date:new Date().toLocaleDateString('en-IN')};
+  
   if(FB_ON&&db){
     try{ const ref=await addDoc(collection(db,'projects'),{...proj,createdAt:serverTimestamp()}); proj.id=ref.id; }
     catch(e){ console.warn("Firestore write failed:",e); }
   }
+  
   projects.unshift(proj);
   try{localStorage.setItem('aipl_proj',JSON.stringify(projects.slice(0,60)));}catch(e){}
-  // Reset
+  
   $id('pName').value='';$id('pCat').value='';$id('pClient').value='';$id('pDesc').value='';
-  photoFile=null; $id('dropLabel').style.display='';
-  const prev=$id('dropzone').querySelector('img.prev'); if(prev) prev.remove();
+  photoFiles=[]; 
+  $id('dropLabel').innerHTML = `
+    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+    <span>Click to select photos</span>`;
+  
   btn.disabled=false; btn.textContent='Add to Portfolio →';
   showAlert('addOk',`✓ "${name}" added successfully!`,'success');
   setTimeout(()=>hideAlert('addOk'),3000);
@@ -826,17 +729,21 @@ window.addProject = async () => {
 function renderProjList(){
   const el=$id('projList');
   if(!projects.length){el.innerHTML='<div class="no-data">No projects yet.</div>';return;}
-  el.innerHTML=projects.map((p,i)=>`
+  el.innerHTML=projects.map((p,i)=>{
+    const cover = (p.photos && p.photos.length > 0) ? p.photos[0] : p.photo;
+    return `
     <div class="proj-item">
-      ${p.photo?`<img class="proj-thumb" src="${p.photo}" alt="${p.name}" />`
+      ${cover?`<img class="proj-thumb" src="${escapeHTML(cover)}" alt="${escapeHTML(p.name)}" />`
         :`<div class="proj-thumb"><span style="font-size:11px;color:var(--gray)">No img</span></div>`}
       <div class="proj-info">
-        <div class="proj-name">${p.name}</div>
-        <div class="proj-meta">${p.category}${p.client?' · '+p.client:''}</div>
+        <div class="proj-name">${escapeHTML(p.name)}</div>
+        <div class="proj-meta">${escapeHTML(p.category)}${p.client?' · '+escapeHTML(p.client):''}</div>
       </div>
       <button class="btn-del" onclick="deleteProj(${i},'${p.id||''}')">Delete</button>
-    </div>`).join('');
+    </div>`
+  }).join('');
 }
+
 window.deleteProj = async (i,fbId) => {
   if(!confirm(`Delete "${projects[i].name}"?`)) return;
   if(FB_ON&&db&&fbId){ try{await deleteDoc(doc(db,'projects',fbId));}catch(e){} }
@@ -845,26 +752,31 @@ window.deleteProj = async (i,fbId) => {
   renderProjects(); renderProjList();
 };
 
-// ─── Inquiry form ─────────────────────────────────────────────
+// ─── Inquiry Form ─────────────────────────────────────────────
 window.submitInquiry = async e => {
   e.preventDefault();
   hideAlert('formSuccess'); hideAlert('formError');
   const btn=$id('inquiryBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Sending…';
+  
   const inq={
     date:new Date().toLocaleDateString('en-IN'),
     name:$id('iName').value.trim(), company:$id('iCompany').value.trim(),
     phone:$id('iPhone').value.trim(), email:$id('iEmail').value.trim(),
-    type:$id('iType').value, message:$id('iMessage').value.trim()
+    type:$id('iType').value, message:$id('iMessage').value.trim(),
+    read: false // Default to unread for the badge system
   };
+  
   let sent=false;
-  // Formspree
+  
+  // RESTORED FORMSPREE
   if(FS_ON){
     try{
       const r=await fetch(`https://formspree.io/f/${CFG.formspree}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(inq)});
       if(r.ok) sent=true;
     }catch(e){}
   }
-  // EmailJS fallback
+  
+  // RESTORED EMAILJS
   if(!sent&&EJ_ON){
     try{
       await emailjs.send(CFG.emailjs.serviceId,CFG.emailjs.inquiryTemplate,{
@@ -874,26 +786,41 @@ window.submitInquiry = async e => {
       sent=true;
     }catch(e){}
   }
-  // Always save
-  if(FB_ON&&db){ try{await addDoc(collection(db,'inquiries'),{...inq,createdAt:serverTimestamp()});}catch(e){} }
+  
+  // Save directly to Firestore as well
+  if(FB_ON&&db){ 
+    try{
+      await addDoc(collection(db,'inquiries'),{...inq,createdAt:serverTimestamp()});
+    }catch(e){
+      console.error(e);
+    } 
+  }
+  
   inquiries.unshift(inq);
   try{localStorage.setItem('aipl_inq',JSON.stringify(inquiries.slice(0,300)));}catch(e){}
+  
   btn.disabled=false; btn.textContent='Send Inquiry →';
   $id('inquiryForm').reset();
+  
   showAlert('formSuccess', sent
     ? '✓ Inquiry sent! We\'ll get back to you within 24 hours.'
-    : '✓ Inquiry received and saved! (Configure email services to get notifications.)','success');
+    : '✓ Inquiry received and saved!','success');
 };
 
 function renderInquiries(){
   const tbody=$id('inqBody');
   if(!inquiries.length){tbody.innerHTML='<tr><td colspan="7" class="no-data">No inquiries yet.</td></tr>';return;}
+  
+  // XSS Escaped table data
   tbody.innerHTML=inquiries.map(q=>`
-    <tr>
-      <td>${q.date}</td><td><strong>${q.name}</strong></td>
-      <td>${q.company||'—'}</td><td>${q.phone}</td><td>${q.email}</td>
-      <td>${q.type||'—'}</td>
-      <td style="max-width:180px;word-break:break-word">${q.message}</td>
+    <tr class="${!q.read ? 'inq-unread' : ''}">
+      <td>${escapeHTML(q.date)}</td>
+      <td>${escapeHTML(q.name)}</td>
+      <td>${escapeHTML(q.company)||'—'}</td>
+      <td>${escapeHTML(q.phone)}</td>
+      <td>${escapeHTML(q.email)}</td>
+      <td>${escapeHTML(q.type)||'—'}</td>
+      <td style="max-width:180px;word-break:break-word">${escapeHTML(q.message)}</td>
     </tr>`).join('');
 }
 
