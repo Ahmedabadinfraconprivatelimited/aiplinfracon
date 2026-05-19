@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ahmedabad Infracon Pvt Ltd</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+:root{
+  --gold:#C8A96E;--gold-light:#E2C99A;
+  --dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--dark4:#242424;
+  --gray:#888;--gray-light:#bbb;--white:#F5F3EE;
+  --red:#8B1A1A;--red-light:#ff8080;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--white);font-family:'Barlow',sans-serif;font-weight:300;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--dark)}
+::-webkit-scrollbar-thumb{background:rgba(200,169,110,.4);border-radius:3px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:linear-gradient(to bottom,rgba(13,13,13,.98),transparent);transition:background .3s}
+nav.scrolled{background:rgba(13,13,13,.97);border-bottom:1px solid rgba(200,169,110,.15)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;letter-spacing:2px;color:var(--gold);text-decoration:none}
+.nav-logo span{color:var(--white);font-weight:300}
+.nav-links{display:flex;gap:36px;align-items:center;list-style:none}
+.nav-links a{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gray-light);text-decoration:none;transition:color .3s}
+.nav-links a:hover{color:var(--gold)}
+.nav-admin-btn{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:8px 20px;border:1px solid rgba(200,169,110,.4);background:transparent;color:var(--gold);cursor:pointer;transition:all .3s}
+.nav-admin-btn:hover{background:var(--gold);color:var(--dark)}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 60px 80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0D0D0D 0%,#1a1008 50%,#0D0D0D 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(200,169,110,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,169,110,.04) 1px,transparent 1px);background-size:80px 80px}
+.hero-circle{position:absolute;right:-200px;top:-200px;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(200,169,110,.08) 0%,transparent 70%)}
+.hero-line{position:absolute;left:59px;bottom:0;top:0;width:3px;background:linear-gradient(to bottom,transparent,var(--gold),transparent)}
+.hero-content{position:relative;z-index:1;max-width:780px}
+.hero-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:flex;align-items:center;gap:16px}
+.hero-eyebrow::before{content:'';width:40px;height:1px;background:var(--gold)}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,8vw,96px);font-weight:300;line-height:1.0;letter-spacing:-1px;color:var(--white);margin-bottom:24px}
+.hero-h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:16px;color:var(--gray-light);line-height:1.7;max-width:500px;margin-bottom:48px}
+.hero-ctas{display:flex;gap:20px;align-items:center}
+.btn-primary{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:16px 40px;background:var(--gold);color:var(--dark);border:none;cursor:pointer;text-decoration:none;font-weight:600;transition:all .3s;display:inline-block}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px)}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.btn-outline{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:15px 40px;background:transparent;color:var(--white);border:1px solid rgba(245,243,238,.3);cursor:pointer;text-decoration:none;transition:all .3s;display:inline-block}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.hero-clients{position:absolute;right:60px;bottom:80px;z-index:1;text-align:right}
+.hero-clients-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gray);margin-bottom:8px}
+.hero-clients-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--gold-light);letter-spacing:1px}
+
+/* SECTIONS */
+section{padding:120px 60px}
+.section-tag{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:16px}
+.section-tag::before{content:'';width:30px;height:1px;background:var(--gold)}
+.section-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,60px);font-weight:300;line-height:1.1;margin-bottom:20px}
+.section-h2 em{font-style:italic;color:var(--gold)}
+
+/* ABOUT */
+#about{background:var(--dark2)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:48px}
+.stat-box{background:var(--dark3);padding:32px 28px;border-left:2px solid var(--gold)}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:600;color:var(--gold);line-height:1}
+.stat-label{font-size:13px;color:var(--gray);margin-top:6px;letter-spacing:1px}
+.about-text p{color:var(--gray-light);line-height:1.8;margin-bottom:16px;font-size:15px}
+.services-list{margin-top:32px;display:flex;flex-direction:column;gap:12px}
+.service-item{display:flex;align-items:center;gap:16px;padding:14px 20px;background:var(--dark3);font-size:14px;color:var(--gray-light);border-right:2px solid transparent;transition:all .3s}
+.service-item:hover{border-right-color:var(--gold);color:var(--white)}
+.service-item::before{content:'◆';color:var(--gold);font-size:8px;flex-shrink:0}
+
+/* PROJECTS */
+#projects{background:var(--dark)}
+.projects-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:2px}
+.project-card{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:4/3;background:var(--dark3)}
+.project-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;display:block}
+.project-card:hover img{transform:scale(1.05)}
+.project-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,13,13,.95) 0%,rgba(13,13,13,.3) 50%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:28px;transform:translateY(60px);transition:transform .4s ease}
+.project-card:hover .project-overlay{transform:translateY(0)}
+.project-cat{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.project-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500}
+.project-desc{font-size:13px;color:var(--gray-light);margin-top:8px;line-height:1.6}
+.no-projects{grid-column:1/-1;text-align:center;padding:80px 20px;color:var(--gray);font-size:15px}
+.no-projects .np-icon{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--dark4);margin-bottom:16px;display:block}
+
+/* INQUIRY */
+#inquiry{background:var(--dark2)}
+.inquiry-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start}
+.inquiry-info h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;margin-bottom:20px;color:var(--gold-light)}
+.inquiry-info p{color:var(--gray-light);line-height:1.8;font-size:15px;margin-bottom:32px}
+.contact-detail{display:flex;flex-direction:column;gap:16px}
+.contact-item{display:flex;gap:14px;align-items:flex-start}
+.contact-icon{color:var(--gold);margin-top:2px;flex-shrink:0}
+.contact-text{font-size:14px;color:var(--gray-light);line-height:1.6}
+.contact-text strong{color:var(--white);display:block;font-weight:500;margin-bottom:2px}
+.inquiry-form{display:flex;flex-direction:column;gap:20px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-group label{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gray)}
+.form-group input,.form-group textarea,.form-group select{background:var(--dark3);border:1px solid rgba(255,255,255,.08);color:var(--white);padding:14px 16px;font-family:'Barlow',sans-serif;font-size:14px;outline:none;transition:border-color .3s;resize:vertical}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold)}
+.form-group select option{background:var(--dark3)}
+
+/* ALERTS */
+.alert{padding:14px 18px;font-size:13px;display:none;margin-top:4px;line-height:1.5}
+.alert.show{display:block}
+.alert-success{background:rgba(200,169,110,.1);border:1px solid var(--gold);color:var(--gold-light)}
+.alert-error{background:rgba(139,26,26,.2);border:1px solid #8b1a1a;color:var(--red-light)}
+.alert-info{background:rgba(30,80,160,.15);border:1px solid #2255bb;color:#88aaff}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding:60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--gold);letter-spacing:2px}
+.footer-copy{font-size:12px;color:var(--gray)}
+
+/* MODALS */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--dark2);border:1px solid rgba(200,169,110,.2);padding:48px;width:90%;max-width:520px;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--gray);font-size:24px;cursor:pointer;line-height:1;transition:color .3s}
+.modal-close:hover{color:var(--gold)}
+.modal h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;margin-bottom:8px}
+.modal p.modal-sub{font-size:14px;color:var(--gray);margin-bottom:28px}
+.modal-form{display:flex;flex-direction:column;gap:16px}
+.modal-link{text-align:center;font-size:13px;color:var(--gray);margin-top:4px}
+.modal-link a{color:var(--gold);cursor:pointer}
+
+/* Lock badge */
+.lock-banner{display:none;align-items:center;gap:10px;padding:10px 14px;background:rgba(139,26,26,.2);border:1px solid rgba(200,80,80,.3);color:#ff9999;font-size:12px;letter-spacing:1px;font-family:'Barlow Condensed',sans-serif;margin-bottom:12px}
+.lock-banner.show{display:flex}
+
+/* Password strength */
+.pw-strength{height:3px;margin-top:4px;background:var(--dark4);border-radius:2px;overflow:hidden}
+.pw-strength-bar{height:100%;width:0;transition:width .3s,background .3s;border-radius:2px}
+
+/* OTP */
+.otp-timer{font-size:12px;color:var(--gray);text-align:center}
+
+/* Spinner */
+.spinner{width:16px;height:16px;border:2px solid rgba(200,169,110,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Project detail */
+#projectModal .modal{max-width:800px;padding:0;overflow:hidden}
+.pm-img{width:100%;height:300px;object-fit:cover;display:block}
+.pm-body{padding:40px}
+.pm-cat{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.pm-title{font-family:'Cormorant Garamond',serif;font-size:36px;margin-bottom:16px}
+.pm-desc{font-size:15px;color:var(--gray-light);line-height:1.8}
+
+/* ADMIN PANEL */
+#adminPanel{display:none;position:fixed;inset:0;z-index:3000;background:var(--dark2);overflow-y:auto}
+.admin-header{background:var(--dark);border-bottom:1px solid rgba(200,169,110,.2);padding:18px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1;flex-wrap:wrap;gap:12px}
+.admin-title{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);font-weight:500}
+.admin-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fb-dot{width:8px;height:8px;border-radius:50%;background:#ff9800;flex-shrink:0;display:inline-block;margin-right:6px}
+.fb-dot.ok{background:#4caf50}.fb-dot.err{background:#f44336}
+.fb-label{font-size:11px;color:var(--gray);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px}
+.admin-body{padding:40px;max-width:960px;margin:0 auto}
+.admin-tabs{display:flex;gap:0;margin-bottom:40px;border-bottom:1px solid rgba(200,169,110,.15)}
+.admin-tab{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:12px 24px;cursor:pointer;color:var(--gray);background:none;border:none;border-bottom:2px solid transparent;transition:all .3s;margin-bottom:-1px}
+.admin-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.section-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid rgba(200,169,110,.15)}
+.add-form{display:flex;flex-direction:column;gap:16px}
+.img-dropzone{width:100%;height:200px;background:var(--dark3);border:2px dashed rgba(200,169,110,.3);display:flex;align-items:center;justify-content:center;color:var(--gray);font-size:14px;cursor:pointer;overflow:hidden;position:relative;transition:border-color .3s}
+.img-dropzone:hover{border-color:var(--gold)}
+.img-dropzone img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.img-dropzone-label{display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+.proj-list{display:flex;flex-direction:column;gap:10px}
+.proj-item{display:flex;align-items:center;gap:16px;background:var(--dark3);padding:14px;border:1px solid rgba(255,255,255,.04);transition:border-color .3s}
+.proj-item:hover{border-color:rgba(200,169,110,.2)}
+.proj-thumb{width:80px;height:60px;object-fit:cover;flex-shrink:0;background:var(--dark4);display:flex;align-items:center;justify-content:center;color:var(--gray);font-size:10px}
+.proj-info{flex:1;min-width:0}
+.proj-name{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.proj-meta{font-size:11px;color:var(--gold);margin-top:3px;letter-spacing:.5px}
+.btn-del{background:none;border:1px solid rgba(139,26,26,.4);color:var(--red-light);padding:7px 14px;cursor:pointer;font-size:11px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;transition:all .3s;flex-shrink:0}
+.btn-del:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.inq-table{width:100%;border-collapse:collapse;font-size:13px}
+.inq-table th{text-align:left;padding:12px 14px;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:var(--dark);border-bottom:1px solid rgba(200,169,110,.2)}
+.inq-table td{padding:13px 14px;color:var(--gray-light);border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+.inq-table tr:hover td{background:rgba(255,255,255,.02)}
+.badge{background:rgba(200,169,110,.15);color:var(--gold);font-size:10px;padding:2px 7px;font-family:'Barlow Condensed',sans-serif;border:1px solid rgba(200,169,110,.3);letter-spacing:.5px}
+.no-data{color:var(--gray);text-align:center;padding:40px;font-size:14px}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.f1{animation:fadeUp .8s ease both}
+.f2{animation:fadeUp .8s .18s ease both}
+.f3{animation:fadeUp .8s .36s ease both}
+
+/* Responsive */
+@media(max-width:900px){
+  nav{padding:16px 24px}.nav-links{display:none}
+  section{padding:80px 24px}#hero{padding:0 24px 60px}
+  .hero-clients{display:none}.hero-line{left:23px}
+  .about-grid,.inquiry-grid{grid-template-columns:1fr;gap:40px}
+  .form-row{grid-template-columns:1fr}
+  footer{padding:40px 24px;flex-direction:column;text-align:center}
+  .admin-body{padding:20px}.admin-header{padding:14px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a class="nav-logo" href="#hero">AIPL<span> | Ahmedabad Infracon</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#inquiry">Contact</a></li>
+  </ul>
+  <button class="nav-admin-btn" onclick="openAdminLogin()">Admin</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="hero-circle"></div><div class="hero-line"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow f1">Building Excellence Since Inception</div>
+    <h1 class="hero-h1 f2">Crafting <em>Spaces</em><br>That Inspire</h1>
+    <p class="hero-sub f3">Premium interior construction, hardscape, and infrastructure solutions. Trusted by India's most discerning enterprises.</p>
+    <div class="hero-ctas f3">
+      <a href="#projects" class="btn-primary">View Portfolio</a>
+      <a href="#inquiry" class="btn-outline">Get In Touch</a>
+    </div>
+  </div>
+  <div class="hero-clients">
+    <div class="hero-clients-label">Proud Client</div>
+    <div class="hero-clients-name">Reliance Industries Limited</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <div class="section-tag">Who We Are</div>
+      <h2 class="section-h2">Built on <em>Precision</em> & Trust</h2>
+      <div class="about-stats">
+        <div class="stat-box"><div class="stat-num">10+</div><div class="stat-label">Years of Excellence</div></div>
+        <div class="stat-box"><div class="stat-num">50+</div><div class="stat-label">Projects Delivered</div></div>
+        <div class="stat-box"><div class="stat-num">100%</div><div class="stat-label">Client Satisfaction</div></div>
+        <div class="stat-box"><div class="stat-num">RIL</div><div class="stat-label">Flagship Client</div></div>
+      </div>
+    </div>
+    <div class="about-text">
+      <p>Ahmedabad Infracon Pvt Ltd is a premier construction and infrastructure company based in Ahmedabad, Gujarat. We specialize in delivering world-class interior construction, hardscape, and civil works for India's leading corporations.</p>
+      <p>Our flagship client, Reliance Industries Limited, reflects our capability to execute complex, large-scale projects with unwavering quality standards and on-time delivery.</p>
+      <p>From concept to completion, our team of skilled engineers, architects, and craftsmen ensure every project becomes a benchmark of excellence.</p>
+      <div class="services-list">
+        <div class="service-item">Interior Construction &amp; Fitouts</div>
+        <div class="service-item">Hardscape &amp; Landscape Development</div>
+        <div class="service-item">Civil &amp; Structural Works</div>
+        <div class="service-item">Commercial Flooring &amp; Cladding</div>
+        <div class="service-item">Project Management &amp; Consultancy</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header">
+    <div>
+      <div class="section-tag">Portfolio</div>
+      <h2 class="section-h2">Our <em>Featured</em> Projects</h2>
+    </div>
+  </div>
+  <div class="projects-grid" id="projectsGrid"></div>
+</section>
+
+<!-- INQUIRY -->
+<section id="inquiry">
+  <div class="inquiry-grid">
+    <div class="inquiry-info">
+      <div class="section-tag">Get In Touch</div>
+      <h2 class="section-h2">Let's Build <em>Together</em></h2>
+      <h3>Start a Conversation</h3>
+      <p>Whether you have a new project in mind or want to discuss how we can add value to your vision, our team is ready to help.</p>
+      <div class="contact-detail">
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div class="contact-text"><strong>Head Office</strong>Ahmedabad, Gujarat, India</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.42 2 2 0 0 1 3.62 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.88-.88a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg></div>
+          <div class="contact-text"><strong>Phone</strong>+91 XXXXX XXXXX</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div class="contact-text"><strong>Email</strong>info@aiplinfracon.com</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <form class="inquiry-form" id="inquiryForm" onsubmit="submitInquiry(event)">
+        <div class="form-row">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="iName" placeholder="Your name" required /></div>
+          <div class="form-group"><label>Company</label><input type="text" id="iCompany" placeholder="Company name" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Phone *</label><input type="tel" id="iPhone" placeholder="+91 XXXXX XXXXX" required /></div>
+          <div class="form-group"><label>Email *</label><input type="email" id="iEmail" placeholder="your@email.com" required /></div>
+        </div>
+        <div class="form-group">
+          <label>Project Type</label>
+          <select id="iType">
+            <option value="">Select type…</option>
+            <option>Interior Construction &amp; Fitouts</option>
+            <option>Hardscape &amp; Landscape</option>
+            <option>Civil &amp; Structural Works</option>
+            <option>Commercial Flooring</option>
+            <option>Project Management</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Message *</label><textarea id="iMessage" rows="5" placeholder="Describe your project requirements…" required></textarea></div>
+        <div class="alert alert-success" id="formSuccess"></div>
+        <div class="alert alert-error" id="formError"></div>
+        <button type="submit" class="btn-primary" id="inquiryBtn">Send Inquiry →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">AHMEDABAD INFRACON PVT LTD</div>
+  <div class="footer-copy">© 2025 Ahmedabad Infracon Pvt Ltd. All rights reserved.</div>
+</footer>
+
+<!-- ═══════════ MODALS ═══════════ -->
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginModal')">×</button>
+    <h2>Admin Access</h2>
+    <p class="modal-sub">Enter your admin password to manage the portfolio.</p>
+    <div class="lock-banner" id="lockBanner">🔒 Locked — try again in <span id="lockSec">60</span>s</div>
+    <div class="modal-form">
+      <div class="alert alert-error" id="loginErr"></div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="adminPw" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()" />
+      </div>
+      <button class="btn-primary" id="loginBtn" onclick="doLogin()" style="width:100%">Login →</button>
+      <div class="modal-link"><a onclick="openForgot()">Forgot password? Send OTP</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- Forgot / OTP Modal -->
+<div class="modal-overlay" id="forgotModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('forgotModal')">×</button>
+    <h2 id="fTitle">Reset Password</h2>
+    <p class="modal-sub" id="fSub">An OTP will be sent to info@aiplinfracon.com</p>
+    <!-- Step 1: Send OTP -->
+    <div id="fStep1" class="modal-form">
+      <div class="alert alert-error" id="fSendErr"></div>
+      <div class="alert alert-info" id="fSendInfo"></div>
+      <button class="btn-primary" id="sendOtpBtn" onclick="sendOTP()" style="width:100%">Send OTP to Email →</button>
+      <div class="modal-link"><a onclick="switchToLogin()">← Back to login</a></div>
+    </div>
+    <!-- Step 2: Verify + New Password -->
+    <div id="fStep2" class="modal-form" style="display:none">
+      <div class="alert alert-error" id="fVerErr"></div>
+      <div class="alert alert-success" id="fVerOk"></div>
+      <div class="form-group">
+        <label>6-Digit OTP</label>
+        <input type="text" id="otpInput" maxlength="6" placeholder="Enter OTP" style="letter-spacing:8px;font-size:20px;text-align:center;font-family:'Barlow Condensed',sans-serif" />
+        <div class="otp-timer" id="otpTimer"></div>
+      </div>
+      <div class="form-group">
+        <label>New Password *</label>
+        <input type="password" id="newPw" placeholder="Min 8 characters" oninput="pwStrength(this.value)" />
+        <div class="pw-strength"><div class="pw-strength-bar" id="pwBar"></div></div>
+      </div>
+      <div class="form-group">
+        <label>Confirm Password *</label>
+        <input type="password" id="confPw" placeholder="Repeat password" />
+      </div>
+      <button class="btn-primary" onclick="verifyAndReset()" style="width:100%">Verify &amp; Set Password →</button>
+      <div class="modal-link"><a onclick="resendOTP()">Resend OTP</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- Project Detail Modal -->
+<div class="modal-overlay" id="projectModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('projectModal')">×</button>
+    <img class="pm-img" id="pmImg" src="" alt="" />
+    <div class="pm-body">
+      <div class="pm-cat" id="pmCat"></div>
+      <div class="pm-title" id="pmTitle"></div>
+      <div class="pm-desc" id="pmDesc"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ADMIN PANEL ═══════════ -->
+<div id="adminPanel">
+  <div class="admin-header">
+    <div class="admin-title">Portfolio Manager — AIPL</div>
+    <div class="admin-actions">
+      <span><span class="fb-dot" id="fbDot"></span><span class="fb-label" id="fbLabel">Connecting…</span></span>
+      <button class="btn-outline" style="font-size:11px;padding:7px 14px;letter-spacing:1px" onclick="openForgot()">Change Password</button>
+      <button class="btn-outline" style="font-size:11px;padding:7px 14px" onclick="closeAdmin()">← Exit</button>
+    </div>
+  </div>
+  <div class="admin-body">
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="tabAdd" onclick="switchTab(this,'tabAdd')">Add Project</button>
+      <button class="admin-tab" data-tab="tabManage" onclick="switchTab(this,'tabManage')">Manage Projects</button>
+      <button class="admin-tab" data-tab="tabInq" onclick="switchTab(this,'tabInq')">Inquiries <span class="badge" id="inqBadge" style="display:none"></span></button>
+    </div>
+
+    <!-- Tab: Add -->
+    <div class="tab-pane active" id="tabAdd">
+      <p class="section-title">Add New Project</p>
+      <div class="add-form">
+        <div class="form-group"><label>Project Name *</label><input type="text" id="pName" placeholder="e.g. Reliance HQ Interior" /></div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="pCat">
+              <option value="">Select…</option>
+              <option>Interior Fitout</option><option>Hardscape</option>
+              <option>Civil Works</option><option>Commercial Flooring</option>
+              <option>Landscape</option><option>Infrastructure</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Client</label><input type="text" id="pClient" placeholder="e.g. Reliance Industries Limited" /></div>
+        </div>
+        <div class="form-group"><label>Description</label><textarea id="pDesc" rows="3" placeholder="Brief project description…"></textarea></div>
+        <div class="form-group">
+          <label>Project Photo *</label>
+          <div class="img-dropzone" id="dropzone" onclick="document.getElementById('photoInput').click()">
+            <div class="img-dropzone-label" id="dropLabel">
+              <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+              <span>Click to upload photo</span>
+            </div>
+            <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)" />
+          </div>
+        </div>
+        <div class="alert alert-error" id="addErr"></div>
+        <div class="alert alert-success" id="addOk"></div>
+        <button class="btn-primary" id="addBtn" onclick="addProject()">Add to Portfolio →</button>
+      </div>
+    </div>
+
+    <!-- Tab: Manage -->
+    <div class="tab-pane" id="tabManage">
+      <p class="section-title">All Projects</p>
+      <div class="proj-list" id="projList"></div>
+    </div>
+
+    <!-- Tab: Inquiries -->
+    <div class="tab-pane" id="tabInq">
+      <p class="section-title">Received Inquiries</p>
+      <div style="overflow-x:auto">
+        <table class="inq-table">
+          <thead><tr><th>Date</th><th>Name</th><th>Company</th><th>Phone</th><th>Email</th><th>Type</th><th>Message</th></tr></thead>
+          <tbody id="inqBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+  SETUP GUIDE (shown in console)
+  ═══════════════════════════════════════ -->
+
+<script type="module">
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  CONFIGURATION — paste your keys here after setup           ║
+// ╠══════════════════════════════════════════════════════════════╣
+// ║  FIREBASE  →  console.firebase.google.com                   ║
+// ║    New project → Web app → copy config below                ║
+// ╠══════════════════════════════════════════════════════════════╣
+// ║  EMAILJS   →  emailjs.com (free)                            ║
+// ║    1. Add Service: Outlook / Microsoft 365                   ║
+// ║       Connect with info@aiplinfracon.com                    ║
+// ║    2. Create Template "OTP":                                 ║
+// ║       Subject: Your AIPL Admin OTP                          ║
+// ║       Body: Your OTP is {{otp_code}}. Expires in 10 mins.  ║
+// ║    3. Create Template "Inquiry":                             ║
+// ║       Subject: New Inquiry from {{from_name}}               ║
+// ║       Body: Name: {{from_name}}\nPhone: {{phone}}\n...      ║
+// ║    4. Copy Public Key from Account → General                 ║
+// ╠══════════════════════════════════════════════════════════════╣
+// ║  FORMSPREE  →  formspree.io (free)                          ║
+// ║    New Form → set email to info@aiplinfracon.com            ║
+// ║    Copy the ID from the endpoint URL                         ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+const CFG = {
+  firebase: {
+    apiKey:            "PASTE_FIREBASE_API_KEY",
+    authDomain:        "PASTE_FIREBASE_AUTH_DOMAIN",
+    projectId:         "PASTE_FIREBASE_PROJECT_ID",
+    storageBucket:     "PASTE_FIREBASE_STORAGE_BUCKET",
+    messagingSenderId: "PASTE_FIREBASE_SENDER_ID",
+    appId:             "PASTE_FIREBASE_APP_ID"
+  },
+  emailjs: {
+    publicKey:       "PASTE_EMAILJS_PUBLIC_KEY",
+    serviceId:       "PASTE_EMAILJS_SERVICE_ID",
+    otpTemplate:     "PASTE_OTP_TEMPLATE_ID",
+    inquiryTemplate: "PASTE_INQUIRY_TEMPLATE_ID"
+  },
+  formspree: "PASTE_FORMSPREE_FORM_ID",   // e.g. xabcdefg
+  adminEmail: "info@aiplinfracon.com",
+  backupPassword: "AIPL@Backup#2024",      // hardcoded fallback — always works
+  sessionHours: 2,
+  maxAttempts: 3,
+  lockoutSecs: 60
+};
+
+// ─── Firebase ────────────────────────────────────────────────
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const FB_ON = !CFG.firebase.apiKey.includes("PASTE");
+const EJ_ON = !CFG.emailjs.publicKey.includes("PASTE");
+const FS_ON = !CFG.formspree.includes("PASTE");
+
+let db;
+if (FB_ON) {
+  try { db = getFirestore(initializeApp(CFG.firebase)); }
+  catch(e){ console.warn("Firebase init error:", e); }
+}
+if (EJ_ON) emailjs.init(CFG.emailjs.publicKey);
+
+// ─── State ───────────────────────────────────────────────────
+let projects  = [];
+let inquiries = [];
+let photoB64  = null;
+let isAdmin   = false;
+let otp       = null, otpExp = null, otpTick = null;
+let attempts  = +localStorage.getItem('aipl_att')||0;
+let lockUntil = +localStorage.getItem('aipl_lock')||0;
+
+// ─── Helpers ─────────────────────────────────────────────────
+async function sha256(s){
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+function $id(id){return document.getElementById(id)}
+function showAlert(id,msg,type='error'){
+  const el=$id(id); el.textContent=msg; el.className=`alert alert-${type} show`;
+}
+function hideAlert(id){ const el=$id(id); if(el){el.classList.remove('show');el.textContent='';} }
+function fbStatus(state){
+  const dot=$id('fbDot'), lbl=$id('fbLabel');
+  if(state==='ok'){dot.className='fb-dot ok';lbl.textContent='Firebase Connected';}
+  else if(state==='local'){dot.className='fb-dot';lbl.textContent='Local Mode (add Firebase config)';}
+  else{dot.className='fb-dot err';lbl.textContent='Firebase Error';}
+}
+
+// ─── Nav scroll ───────────────────────────────────────────────
+window.addEventListener('scroll',()=>$id('mainNav').classList.toggle('scrolled',scrollY>60));
+
+// ─── Modals ───────────────────────────────────────────────────
+window.openModal = id => { $id(id).classList.add('open'); document.body.style.overflow='hidden'; };
+window.closeModal = id => { $id(id).classList.remove('open'); document.body.style.overflow=''; };
+document.querySelectorAll('.modal-overlay').forEach(el=>{
+  el.addEventListener('click',e=>{ if(e.target===el) closeModal(el.id); });
+});
+
+// ─── Load data ────────────────────────────────────────────────
+async function loadProjects(){
+  if(FB_ON && db){
+    try{
+      const q=query(collection(db,'projects'),orderBy('createdAt','desc'));
+      projects=(await getDocs(q)).docs.map(d=>({id:d.id,...d.data()}));
+      fbStatus('ok');
+    }catch(e){ projects=JSON.parse(localStorage.getItem('aipl_proj')||'[]'); fbStatus('error'); }
+  } else { projects=JSON.parse(localStorage.getItem('aipl_proj')||'[]'); fbStatus('local'); }
+  renderProjects(); renderProjList();
+}
+async function loadInquiries(){
+  if(FB_ON && db){
+    try{
+      const q=query(collection(db,'inquiries'),orderBy('createdAt','desc'));
+      inquiries=(await getDocs(q)).docs.map(d=>({id:d.id,...d.data()}));
+    }catch(e){ inquiries=JSON.parse(localStorage.getItem('aipl_inq')||'[]'); }
+  } else { inquiries=JSON.parse(localStorage.getItem('aipl_inq')||'[]'); }
+  renderInquiries();
+  if(inquiries.length){ $id('inqBadge').textContent=inquiries.length; $id('inqBadge').style.display=''; }
+}
+
+// ─── Render public projects ───────────────────────────────────
+function renderProjects(){
+  const g=$id('projectsGrid');
+  if(!projects.length){
+    g.innerHTML='<div class="no-projects"><span class="np-icon">—</span>No projects yet. Login as admin to add your portfolio.</div>';
+    return;
+  }
+  g.innerHTML=projects.map((p,i)=>`
+    <div class="project-card" onclick="openProject(${i})">
+      ${p.photo?`<img src="${p.photo}" alt="${p.name}" loading="lazy" />`
+        :`<div style="height:100%;display:flex;align-items:center;justify-content:center;color:var(--gray)">No image</div>`}
+      <div class="project-overlay">
+        <div class="project-cat">${p.category||'Project'}</div>
+        <div class="project-name">${p.name}</div>
+        ${p.description?`<div class="project-desc">${p.description.slice(0,100)}${p.description.length>100?'…':''}</div>`:''}
+      </div>
+    </div>`).join('');
+}
+window.openProject = i => {
+  const p=projects[i];
+  $id('pmImg').src=p.photo||''; $id('pmImg').style.display=p.photo?'block':'none';
+  $id('pmCat').textContent=(p.category||'')+(p.client?' · '+p.client:'');
+  $id('pmTitle').textContent=p.name;
+  $id('pmDesc').textContent=p.description||'';
+  openModal('projectModal');
+};
+
+// ─── Admin login ──────────────────────────────────────────────
+window.openAdminLogin = () => {
+  if(isAdmin){openAdminPanel();return;}
+  $id('adminPw').value=''; hideAlert('loginErr'); checkLock();
+  openModal('loginModal'); setTimeout(()=>$id('adminPw').focus(),200);
+};
+function checkLock(){
+  const now=Date.now(), banner=$id('lockBanner'), btn=$id('loginBtn'), pw=$id('adminPw');
+  if(lockUntil>now){
+    banner.classList.add('show'); btn.disabled=true; pw.disabled=true;
+    const tick=()=>{
+      const rem=Math.ceil((lockUntil-Date.now())/1000);
+      if(rem<=0){banner.classList.remove('show');btn.disabled=false;pw.disabled=false;attempts=0;localStorage.setItem('aipl_att','0');}
+      else{$id('lockSec').textContent=rem;setTimeout(tick,1000);}
+    };tick();
+  } else {banner.classList.remove('show');btn.disabled=false;pw.disabled=false;}
+}
+window.doLogin = async () => {
+  if(lockUntil>Date.now()) return;
+  const pw=$id('adminPw').value;
+  const hash=await sha256(pw);
+  const backup=await sha256(CFG.backupPassword);
+  const stored=localStorage.getItem('aipl_phash');
+  if(hash===backup||(stored&&hash===stored)){
+    attempts=0;localStorage.setItem('aipl_att','0');
+    localStorage.setItem('aipl_sess',Date.now()+'');
+    isAdmin=true; closeModal('loginModal'); openAdminPanel();
+  } else {
+    attempts++;localStorage.setItem('aipl_att',attempts+'');
+    if(attempts>=CFG.maxAttempts){
+      lockUntil=Date.now()+CFG.lockoutSecs*1000;
+      localStorage.setItem('aipl_lock',lockUntil+'');
+      checkLock(); showAlert('loginErr',`Too many attempts. Locked for ${CFG.lockoutSecs}s.`);
+    } else {
+      showAlert('loginErr',`Wrong password. ${CFG.maxAttempts-attempts} attempt(s) left.`);
+    }
+  }
+};
+// Session auto-expire
+setInterval(()=>{
+  const s=+localStorage.getItem('aipl_sess')||0;
+  if(isAdmin&&Date.now()-s>CFG.sessionHours*3600000){
+    isAdmin=false;localStorage.removeItem('aipl_sess');
+    if($id('adminPanel').style.display!=='none') closeAdmin();
+  }
+},60000);
+
+// ─── Forgot / OTP ─────────────────────────────────────────────
+window.openForgot = () => {
+  closeModal('loginModal');
+  $id('fStep1').style.display=''; $id('fStep2').style.display='none';
+  $id('fTitle').textContent='Reset Password';
+  $id('fSub').textContent=`OTP will be sent to ${CFG.adminEmail}`;
+  hideAlert('fSendErr'); hideAlert('fSendInfo');
+  openModal('forgotModal');
+};
+window.switchToLogin = () => { closeModal('forgotModal'); openModal('loginModal'); };
+
+window.sendOTP = async () => {
+  const btn=$id('sendOtpBtn'); btn.disabled=true;
+  btn.innerHTML='<span class="spinner"></span>Sending…';
+  hideAlert('fSendErr'); hideAlert('fSendInfo');
+  otp=Math.floor(100000+Math.random()*900000)+'';
+  otpExp=Date.now()+10*60*1000;
+  if(!EJ_ON){
+    btn.disabled=false; btn.textContent='Send OTP to Email →';
+    showAlert('fSendInfo',`⚠ EmailJS not configured. Test OTP: ${otp}`,'info');
+    showStep2(); return;
+  }
+  try {
+    await emailjs.send(CFG.emailjs.serviceId, CFG.emailjs.otpTemplate, {
+      to_email:CFG.adminEmail, otp_code:otp, expiry_mins:10
+    });
+    btn.disabled=false; btn.textContent='Send OTP to Email →';
+    showStep2();
+  } catch(e){
+    btn.disabled=false; btn.textContent='Send OTP to Email →';
+    showAlert('fSendErr','Failed to send OTP. Check EmailJS config.');
+  }
+};
+function showStep2(){
+  $id('fStep1').style.display='none'; $id('fStep2').style.display='';
+  $id('fTitle').textContent='Enter OTP'; $id('fSub').textContent=`OTP sent to ${CFG.adminEmail}`;
+  $id('otpInput').value=''; $id('newPw').value=''; $id('confPw').value='';
+  startOtpTimer();
+}
+function startOtpTimer(){
+  clearInterval(otpTick);
+  const el=$id('otpTimer');
+  otpTick=setInterval(()=>{
+    const rem=Math.ceil((otpExp-Date.now())/1000);
+    if(rem<=0){clearInterval(otpTick);el.textContent='OTP expired.';el.style.color='var(--red-light)';}
+    else{el.textContent=`Expires in ${Math.floor(rem/60)}:${(rem%60)+''.padStart(2,'0')}`;el.style.color='var(--gray)';}
+  },1000);
+}
+window.resendOTP = () => { $id('fStep1').style.display=''; $id('fStep2').style.display='none'; $id('fTitle').textContent='Reset Password'; };
+window.verifyAndReset = async () => {
+  const entered=$id('otpInput').value.trim();
+  const np=$id('newPw').value, cp=$id('confPw').value;
+  hideAlert('fVerErr'); hideAlert('fVerOk');
+  if(!otp||Date.now()>otpExp){showAlert('fVerErr','OTP expired. Request a new one.');return;}
+  if(entered!==otp){showAlert('fVerErr','Incorrect OTP.');return;}
+  if(np.length<8){showAlert('fVerErr','Password must be at least 8 characters.');return;}
+  if(np!==cp){showAlert('fVerErr','Passwords do not match.');return;}
+  localStorage.setItem('aipl_phash',await sha256(np));
+  otp=null; clearInterval(otpTick);
+  showAlert('fVerOk','✓ Password changed! Logging you in…','success');
+  setTimeout(()=>{
+    closeModal('forgotModal');
+    localStorage.setItem('aipl_sess',Date.now()+'');
+    isAdmin=true; openAdminPanel();
+  },1800);
+};
+window.pwStrength = pw => {
+  const bar=$id('pwBar'); let s=0;
+  if(pw.length>=8)s++;if(/[A-Z]/.test(pw))s++;if(/\d/.test(pw))s++;if(/[^A-Za-z0-9]/.test(pw))s++;
+  bar.style.width=(s*25)+'%';
+  bar.style.background=['','#f44336','#ff9800','#ffeb3b','#4caf50'][s]||'#4caf50';
+};
+
+// ─── Admin panel ──────────────────────────────────────────────
+function openAdminPanel(){ $id('adminPanel').style.display='block'; loadProjects(); loadInquiries(); }
+window.closeAdmin = () => { $id('adminPanel').style.display='none'; renderProjects(); };
+window.switchTab = (btn,id) => {
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active'); $id(id).classList.add('active');
+};
+
+// ─── Photo handling ───────────────────────────────────────────
+window.handlePhoto = input => {
+  const file=input.files[0]; if(!file) return;
+  const img=new Image(), url=URL.createObjectURL(file);
+  img.onload=()=>{
+    const c=document.createElement('canvas');
+    const r=Math.min(1,1200/img.width);
+    c.width=img.width*r; c.height=img.height*r;
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    photoB64=c.toDataURL('image/jpeg',0.82);
+    const dz=$id('dropzone');
+    let prev=dz.querySelector('img.prev');
+    if(!prev){prev=document.createElement('img');prev.className='prev';prev.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;';dz.appendChild(prev);}
+    prev.src=photoB64; $id('dropLabel').style.display='none';
+    URL.revokeObjectURL(url);
+  };img.src=url;
+};
+
+// ─── Add project ──────────────────────────────────────────────
+window.addProject = async () => {
+  const name=$id('pName').value.trim(), cat=$id('pCat').value;
+  const client=$id('pClient').value.trim(), desc=$id('pDesc').value.trim();
+  hideAlert('addErr'); hideAlert('addOk');
+  if(!name){showAlert('addErr','Project name is required.');return;}
+  if(!cat){showAlert('addErr','Please select a category.');return;}
+  if(!photoB64){showAlert('addErr','Please upload a project photo.');return;}
+  const btn=$id('addBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Saving…';
+  const proj={name,category:cat,client,description:desc,photo:photoB64,date:new Date().toLocaleDateString('en-IN')};
+  if(FB_ON&&db){
+    try{ const ref=await addDoc(collection(db,'projects'),{...proj,createdAt:serverTimestamp()}); proj.id=ref.id; }
+    catch(e){ console.warn("Firestore write failed:",e); }
+  }
+  projects.unshift(proj);
+  try{localStorage.setItem('aipl_proj',JSON.stringify(projects.slice(0,60)));}catch(e){}
+  // Reset
+  $id('pName').value='';$id('pCat').value='';$id('pClient').value='';$id('pDesc').value='';
+  photoB64=null; $id('dropLabel').style.display='';
+  const prev=$id('dropzone').querySelector('img.prev'); if(prev) prev.remove();
+  btn.disabled=false; btn.textContent='Add to Portfolio →';
+  showAlert('addOk',`✓ "${name}" added successfully!`,'success');
+  setTimeout(()=>hideAlert('addOk'),3000);
+  renderProjects(); renderProjList();
+};
+
+function renderProjList(){
+  const el=$id('projList');
+  if(!projects.length){el.innerHTML='<div class="no-data">No projects yet.</div>';return;}
+  el.innerHTML=projects.map((p,i)=>`
+    <div class="proj-item">
+      ${p.photo?`<img class="proj-thumb" src="${p.photo}" alt="${p.name}" />`
+        :`<div class="proj-thumb"><span style="font-size:11px;color:var(--gray)">No img</span></div>`}
+      <div class="proj-info">
+        <div class="proj-name">${p.name}</div>
+        <div class="proj-meta">${p.category}${p.client?' · '+p.client:''}</div>
+      </div>
+      <button class="btn-del" onclick="deleteProj(${i},'${p.id||''}')">Delete</button>
+    </div>`).join('');
+}
+window.deleteProj = async (i,fbId) => {
+  if(!confirm(`Delete "${projects[i].name}"?`)) return;
+  if(FB_ON&&db&&fbId){ try{await deleteDoc(doc(db,'projects',fbId));}catch(e){} }
+  projects.splice(i,1);
+  try{localStorage.setItem('aipl_proj',JSON.stringify(projects));}catch(e){}
+  renderProjects(); renderProjList();
+};
+
+// ─── Inquiry form ─────────────────────────────────────────────
+window.submitInquiry = async e => {
+  e.preventDefault();
+  hideAlert('formSuccess'); hideAlert('formError');
+  const btn=$id('inquiryBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Sending…';
+  const inq={
+    date:new Date().toLocaleDateString('en-IN'),
+    name:$id('iName').value.trim(), company:$id('iCompany').value.trim(),
+    phone:$id('iPhone').value.trim(), email:$id('iEmail').value.trim(),
+    type:$id('iType').value, message:$id('iMessage').value.trim()
+  };
+  let sent=false;
+  // Formspree
+  if(FS_ON){
+    try{
+      const r=await fetch(`https://formspree.io/f/${CFG.formspree}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(inq)});
+      if(r.ok) sent=true;
+    }catch(e){}
+  }
+  // EmailJS fallback
+  if(!sent&&EJ_ON){
+    try{
+      await emailjs.send(CFG.emailjs.serviceId,CFG.emailjs.inquiryTemplate,{
+        to_email:CFG.adminEmail, from_name:inq.name, from_email:inq.email,
+        phone:inq.phone, company:inq.company||'—', project_type:inq.type||'—', message:inq.message
+      });
+      sent=true;
+    }catch(e){}
+  }
+  // Always save
+  if(FB_ON&&db){ try{await addDoc(collection(db,'inquiries'),{...inq,createdAt:serverTimestamp()});}catch(e){} }
+  inquiries.unshift(inq);
+  try{localStorage.setItem('aipl_inq',JSON.stringify(inquiries.slice(0,300)));}catch(e){}
+  btn.disabled=false; btn.textContent='Send Inquiry →';
+  $id('inquiryForm').reset();
+  showAlert('formSuccess', sent
+    ? '✓ Inquiry sent! We\'ll get back to you within 24 hours.'
+    : '✓ Inquiry received and saved! (Configure email services to get notifications.)','success');
+};
+
+function renderInquiries(){
+  const tbody=$id('inqBody');
+  if(!inquiries.length){tbody.innerHTML='<tr><td colspan="7" class="no-data">No inquiries yet.</td></tr>';return;}
+  tbody.innerHTML=inquiries.map(q=>`
+    <tr>
+      <td>${q.date}</td><td><strong>${q.name}</strong></td>
+      <td>${q.company||'—'}</td><td>${q.phone}</td><td>${q.email}</td>
+      <td>${q.type||'—'}</td>
+      <td style="max-width:180px;word-break:break-word">${q.message}</td>
+    </tr>`).join('');
+}
+
+// ─── Init ─────────────────────────────────────────────────────
+loadProjects();
+fbStatus(FB_ON?'ok':'local');
+</script>
+</body>
+</html>
