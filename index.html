@@ -6,6 +6,7 @@
 <title>Ahmedabad Infracon Pvt Ltd</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <style>
 :root{
   --gold:#C8A96E;--gold-light:#E2C99A;
@@ -179,7 +180,7 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
 .ep-thumb-wrap { position:relative; width:80px; height:80px; border-radius:4px; background:var(--dark3); border:1px solid rgba(255,255,255,.1); }
 .ep-thumb-wrap img { width:100%; height:100%; object-fit:cover; border-radius:4px; display:block; }
 .ep-thumb-del { position:absolute; top:-8px; right:-8px; background:var(--red); color:#fff; border:none; border-radius:50%; width:22px; height:22px; font-size:14px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center; z-index:2; }
-/* New Rearrange Arrows */
+/* Rearrange Arrows */
 .ep-thumb-nav { position:absolute; bottom:0; left:0; right:0; display:flex; justify-content:space-between; background:rgba(0,0,0,0.6); border-bottom-left-radius:4px; border-bottom-right-radius:4px; padding:2px; }
 .ep-thumb-nav button { background:none; border:none; color:var(--white); font-size:12px; cursor:pointer; padding:2px 8px; transition:color 0.2s; }
 .ep-thumb-nav button:hover { color:var(--gold); }
@@ -306,6 +307,11 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
           </select>
         </div>
         <div class="form-group"><label>Message *</label><textarea id="iMessage" rows="5" placeholder="Describe your project requirements…" required></textarea></div>
+        
+        <div class="form-group" style="margin-top: 10px;">
+          <div class="g-recaptcha" data-sitekey="6LdVwvIsAAAAAK4cMHbVISKIiBvJt5zZ7hGIMAOo" data-theme="dark"></div>
+        </div>
+
         <div class="alert alert-success" id="formSuccess"></div>
         <div class="alert alert-error" id="formError"></div>
         <button type="submit" class="btn-primary" id="inquiryBtn">Send Inquiry →</button>
@@ -459,7 +465,6 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
 </div>
 
 <script type="module">
-// ADD YOUR KEYS BACK HERE!
 const CFG = {
   firebase: {
     apiKey:            "AIzaSyA0dhdMxI777SFbofvC0bcuHF38w0pxRKs",
@@ -853,11 +858,9 @@ window.removeEditPhoto = (i) => {
   renderEditPhotos();
 };
 
-// New function to handle shifting photos left or right
 window.moveEditPhoto = (i, dir) => {
   const target = i + dir;
   if (target < 0 || target >= editExistingPhotos.length) return;
-  // Swap the array elements
   [editExistingPhotos[i], editExistingPhotos[target]] = [editExistingPhotos[target], editExistingPhotos[i]];
   renderEditPhotos();
 };
@@ -916,10 +919,21 @@ window.saveEditProj = async () => {
   renderProjects(); renderProjList();
 };
 
-// ─── Inquiry Form ─────────────────────────────────────────────
+// ─── Inquiry Form & reCAPTCHA ─────────────────────────────────
 window.submitInquiry = async e => {
   e.preventDefault();
   hideAlert('formSuccess'); hideAlert('formError');
+
+  // Verify reCAPTCHA First!
+  const rc = document.querySelector('.g-recaptcha');
+  if (rc && rc.getAttribute('data-sitekey') && !rc.getAttribute('data-sitekey').includes('PASTE')) {
+    const recaptchaResponse = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : '';
+    if (!recaptchaResponse) {
+      showAlert('formError', 'Please check the "I am not a robot" box.');
+      return;
+    }
+  }
+
   const btn=$id('inquiryBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Sending…';
   
   const inq={
@@ -960,6 +974,9 @@ window.submitInquiry = async e => {
   
   btn.disabled=false; btn.textContent='Send Inquiry →';
   $id('inquiryForm').reset();
+
+  // Reset reCAPTCHA after successful submission
+  if(typeof grecaptcha !== 'undefined') grecaptcha.reset();
   
   showAlert('formSuccess', sent
     ? '✓ Inquiry sent! We\'ll get back to you within 24 hours.'
@@ -988,5 +1005,3 @@ fbStatus(FB_ON?'ok':'local');
 </script>
 </body>
 </html>
-
-
