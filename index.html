@@ -309,6 +309,7 @@ footer{background:var(--dark);border-top:1px solid rgba(200,169,110,.15);padding
         <div class="form-group"><label>Message *</label><textarea id="iMessage" rows="5" placeholder="Describe your project requirements…" required></textarea></div>
         
         <div class="form-group" style="margin-top: 10px;">
+          <!-- reCAPTCHA v2 Widget -->
           <div class="g-recaptcha" data-sitekey="6LdVwvIsAAAAAK4cMHbVISKIiBvJt5zZ7hGIMAOo" data-theme="dark"></div>
         </div>
 
@@ -485,24 +486,28 @@ const CFG = {
 
 const CLOUDINARY_CLOUD = "dfi17qgsu";
 const CLOUDINARY_PRESET = "aipl_uploads";
+const RECAPTCHA_V3_SITE_KEY = "6LdXx_IsAAAAAFYL06nCLSMSwi0Mk7tnpX_G7AdA";
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app-check.js";
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const FB_ON = !CFG.firebase.apiKey.includes("PASTE");
-const EJ_ON = !CFG.emailjs.publicKey.includes("PASTE");
-const FS_ON = !CFG.formspree.includes("PASTE");
+let app, db, auth, appCheck;
+try { 
+  app = initializeApp(CFG.firebase); 
 
-let app, db, auth;
-if (FB_ON) {
-  try { 
-    app = initializeApp(CFG.firebase); 
-    db = getFirestore(app); 
-    auth = getAuth(app);
-  } catch(e) { console.warn("Firebase init error:", e); }
-}
-if (EJ_ON) emailjs.init(CFG.emailjs.publicKey);
+  // Initialize App Check to secure the database
+  appCheck = initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider(RECAPTCHA_V3_SITE_KEY),
+    isTokenAutoRefreshEnabled: true
+  });
+
+  db = getFirestore(app); 
+  auth = getAuth(app);
+} catch(e) { console.warn("Firebase init error:", e); }
+
+emailjs.init(CFG.emailjs.publicKey);
 
 // ─── State ───────────────────────────────────────────────────
 let projects  = [];
@@ -530,7 +535,6 @@ function hideAlert(id){ const el=$id(id); if(el){el.classList.remove('show');el.
 function fbStatus(state){
   const dot=$id('fbDot'), lbl=$id('fbLabel');
   if(state==='ok'){dot.className='fb-dot ok';lbl.textContent='Firebase Connected';}
-  else if(state==='local'){dot.className='fb-dot';lbl.textContent='Local Mode (add Firebase config)';}
   else{dot.className='fb-dot err';lbl.textContent='Firebase Error';}
 }
 
@@ -544,7 +548,7 @@ document.querySelectorAll('.modal-overlay').forEach(el=>{
 });
 
 // ─── Auth State & Logout ──────────────────────────────────────
-if (FB_ON && auth) {
+if (auth) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       isAdmin = true;
@@ -565,7 +569,7 @@ window.openAdminLogin = () => {
 };
 
 window.doLogin = async () => {
-  if (!FB_ON || !auth) { showAlert('loginErr', 'Firebase is not configured.'); return; }
+  if (!auth) { showAlert('loginErr', 'Firebase is not configured.'); return; }
   const pw = $id('adminPw').value;
   if (!pw) return;
   const btn = $id('loginBtn');
@@ -581,7 +585,7 @@ window.doLogin = async () => {
 };
 
 window.closeAdmin = () => {
-  if (FB_ON && auth) {
+  if (auth) {
     signOut(auth); 
   } else {
     $id('adminPanel').style.display='none'; 
@@ -591,18 +595,18 @@ window.closeAdmin = () => {
 
 // ─── Load Data ────────────────────────────────────────────────
 async function loadProjects(){
-  if(FB_ON && db){
+  if(db){
     try{
       const q=query(collection(db,'projects'),orderBy('createdAt','desc'));
       projects=(await getDocs(q)).docs.map(d=>({id:d.id,...d.data()}));
       fbStatus('ok');
     }catch(e){ projects=JSON.parse(localStorage.getItem('aipl_proj')||'[]'); fbStatus('error'); }
-  } else { projects=JSON.parse(localStorage.getItem('aipl_proj')||'[]'); fbStatus('local'); }
+  } else { projects=JSON.parse(localStorage.getItem('aipl_proj')||'[]'); fbStatus('error'); }
   renderProjects(); renderProjList();
 }
 
 async function loadInquiries(){
-  if(FB_ON && db){
+  if(db){
     try{
       const q=query(collection(db,'inquiries'),orderBy('createdAt','desc'));
       inquiries=(await getDocs(q)).docs.map(d=>({id:d.id,...d.data()}));
@@ -695,7 +699,7 @@ async function markInquiriesAsRead() {
     if (!q.read && q.id) {
       q.read = true; 
       updated = true;
-      if (FB_ON && db) {
+      if (db) {
         try { await updateDoc(doc(db, 'inquiries', q.id), { read: true }); } 
         catch(e) {}
       }
@@ -762,7 +766,7 @@ window.addProject = async () => {
   
   const proj={name,category:cat,client,description:desc,photos:photoUrls,date:new Date().toLocaleDateString('en-IN')};
   
-  if(FB_ON&&db){
+  if(db){
     try{ const ref=await addDoc(collection(db,'projects'),{...proj,createdAt:serverTimestamp()}); proj.id=ref.id; }
     catch(e){ console.warn("Firestore write failed:",e); }
   }
@@ -805,7 +809,7 @@ function renderProjList(){
 
 window.deleteProj = async (i,fbId) => {
   if(!confirm(`Delete "${projects[i].name}"?`)) return;
-  if(FB_ON&&db&&fbId){ try{await deleteDoc(doc(db,'projects',fbId));}catch(e){} }
+  if(db&&fbId){ try{await deleteDoc(doc(db,'projects',fbId));}catch(e){} }
   projects.splice(i,1);
   try{localStorage.setItem('aipl_proj',JSON.stringify(projects));}catch(e){}
   renderProjects(); renderProjList();
@@ -904,7 +908,7 @@ window.saveEditProj = async () => {
   p.name = name; p.category = cat; p.client = client; 
   p.description = desc; p.photos = finalPhotos;
 
-  if(FB_ON && db && p.id) {
+  if(db && p.id) {
     try {
       await updateDoc(doc(db, 'projects', p.id), {
         name, category:cat, client, description:desc, photos:finalPhotos
@@ -924,9 +928,9 @@ window.submitInquiry = async e => {
   e.preventDefault();
   hideAlert('formSuccess'); hideAlert('formError');
 
-  // Verify reCAPTCHA First!
+  // Verify reCAPTCHA v2 (Checkbox) First!
   const rc = document.querySelector('.g-recaptcha');
-  if (rc && rc.getAttribute('data-sitekey') && !rc.getAttribute('data-sitekey').includes('PASTE')) {
+  if (rc && rc.getAttribute('data-sitekey')) {
     const recaptchaResponse = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : '';
     if (!recaptchaResponse) {
       showAlert('formError', 'Please check the "I am not a robot" box.');
@@ -946,14 +950,12 @@ window.submitInquiry = async e => {
   
   let sent=false;
   
-  if(FS_ON){
-    try{
-      const r=await fetch(`https://formspree.io/f/${CFG.formspree}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(inq)});
-      if(r.ok) sent=true;
-    }catch(e){}
-  }
+  try{
+    const r=await fetch(`https://formspree.io/f/${CFG.formspree}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(inq)});
+    if(r.ok) sent=true;
+  }catch(e){}
   
-  if(!sent&&EJ_ON){
+  if(!sent){
     try{
       await emailjs.send(CFG.emailjs.serviceId,CFG.emailjs.inquiryTemplate,{
         to_email:CFG.adminEmail, from_name:inq.name, from_email:inq.email,
@@ -963,7 +965,7 @@ window.submitInquiry = async e => {
     }catch(e){}
   }
   
-  if(FB_ON&&db){ 
+  if(db){ 
     try{
       await addDoc(collection(db,'inquiries'),{...inq,createdAt:serverTimestamp()});
     }catch(e){} 
@@ -1001,7 +1003,7 @@ function renderInquiries(){
 
 // ─── Init ─────────────────────────────────────────────────────
 loadProjects();
-fbStatus(FB_ON?'ok':'local');
+fbStatus(db?'ok':'error');
 </script>
 </body>
 </html>
